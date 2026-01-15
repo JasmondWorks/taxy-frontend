@@ -15,7 +15,8 @@ The frontend of an informatory web platform for the 2026 Nigeria tax reform
 
 ## Project Structure
 
-`├── index.html, about.html, contact.html
+<pre>
+├── index.html, about.html, contact.html
 ├── css/
 │   ├── shared.css          ⚠️ Communicate before editing
 │   ├── home.css
@@ -28,7 +29,8 @@ The frontend of an informatory web platform for the 2026 Nigeria tax reform
 │   └── contact.js
 └── assets/
     ├── images/
-    └── icons/`
+    └── icons/
+</pre>
 
 ## Team
 
