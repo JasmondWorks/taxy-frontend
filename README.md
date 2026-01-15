@@ -1,6 +1,6 @@
 # taxy-frontend
 
-Brief description of your project.
+The frontend of an informatory web platform for the 2026 Nigeria tax reform
 
 ## Getting Started
 
