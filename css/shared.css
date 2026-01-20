@@ -1,0 +1,93 @@
+/* CSS RESET */
+
+html {
+  font-size: 62.5%; /* 1rem = 10px */
+}
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Colors */
+  --clr-primary-100: #dcfce7;
+  --clr-primary-300: #8ec29a;
+  --clr-primary-400: #097a23;
+
+  --clr-neutral-100: #fff;
+  --clr-neutral-200: #e5e7eb;
+  --clr-neutral-400: #f0f0f0;
+
+  --clr-orange-100: #fffdf9;
+  --clr-orange-200: #f5e6be;
+  --clr-orange-400: #f9c53d;
+  --clr-orange-900: #8c4b00;
+
+  --clr-red-100: #fff6f6;
+  --clr-red-200: #ffe8e8;
+  --clr-red-400: #e23636;
+
+  --clr-purple-100: #faf6ff;
+  --clr-purple-200: #eee1ff;
+  --clr-purple-300: #d5b4ff;
+
+  --clr-green-100: #fafffa;
+  --clr-green-200: #d7f4d5;
+  --clr-green-300: #4bb543;
+
+  --clr-blue-400: #193cb8;
+
+  --clr-error-fg: var(--clr-orange-900);
+  --clr-error-bg: var(--clr-orange-200);
+  --clr-info-fg: var(--clr-blue-400);
+
+  /* Spacing */
+  --space-base: 0.8rem;
+  --space-100: calc(var(--space-base) * 1);
+  --space-200: calc(var(--space-base) * 2);
+  --space-300: calc(var(--space-base) * 3);
+  --space-400: calc(var(--space-base) * 4);
+  --space-500: calc(var(--space-base) * 5);
+  --space-600: calc(var(--space-base) * 6);
+  --space-700: calc(var(--space-base) * 7);
+  --space-800: calc(var(--space-base) * 8);
+  --space-900: calc(var(--space-base) * 9);
+
+  /* Border radius */
+  --radius-sm: var(--space-base);
+  --radius-md: var(--space-md);
+  --radius-lg: var(--space-base);
+
+  /* Font weights */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-medium: 700;
+
+  --font-scale: 1.2;
+  --font-size-sm: calc(var(--font-scale) * 1rem);
+  --font-size-base: calc(var(--font-scale) * 1.6rem);
+  --font-size-md: calc(var(--font-scale) * 2rem);
+  --font-size-lg: calc(var(--font-scale) * 2.4rem);
+  --font-size-2xl: calc(var(--font-scale) * 3rem);
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
+/* UTILITIES */
+.text-accent {
+  color: var(--clr-primary-400);
+}
+
+/* COMPONENTS */
