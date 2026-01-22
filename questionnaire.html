@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Questionnaire</title>
+    <!-- Font icons import -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.8.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="css/shared.css" />
+    <link rel="stylesheet" href="css/questionnaire.css" />
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <img src="assets/images/logo.png" class="logo" alt="Logo" />
+    </nav>
+
+    <section class="questionnaire">
+      <div class="container container--narrow">
+        <div class="steps-indicator">
+          <div class="step step--completed" data-target="step-1">1</div>
+          <div class="step step--active" data-target="step-2">2</div>
+          <div class="step" data-target="step-3">3</div>
+          <div class="step" data-target="step-4">4</div>
+        </div>
+      </div>
+      <div class="container questions-container">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const checkboxCards = document.querySelectorAll(".checkbox-card");
+
+        checkboxCards.forEach((card) => {
+          card.addEventListener("click", () => {
+            // Find parent container
+            const container = card.closest(".checkbox-cards-container");
+            if (!container) return;
+
+            // Deselect all siblings in the same container
+            const siblings = container.querySelectorAll(".checkbox-card");
+            siblings.forEach((c) =>
+              c.classList.remove("checkbox-card--active"),
+            );
+
+            // Select clicked card
+            card.classList.add("checkbox-card--active");
+          });
+        });
+      });
+    </script>
+
+    <script src="js/questionnaire.js"></script>
+  </body>
+</html>
