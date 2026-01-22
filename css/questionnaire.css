@@ -18,13 +18,61 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-inline: var(--space-200);
-  overflow: hidden;
   margin-bottom: var(--space-900);
 }
 
+/* Background line that spans the entire width */
+.steps-indicator::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  background-color: var(--clr-neutral-600);
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+/* Progress line that fills based on completed steps */
+.steps-indicator::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 2px;
+  background-color: var(--clr-primary-400);
+  transform: translateY(-50%);
+  z-index: 0;
+  transition: width 0.3s ease-in-out;
+}
+
+/* Calculate progress width based on number of completed steps */
+.steps-indicator[data-progress="0"]::after {
+  width: 0%;
+}
+.steps-indicator[data-progress="1"]::after {
+  width: 33.33%;
+}
+.steps-indicator[data-progress="2"]::after {
+  width: 66.66%;
+}
+.steps-indicator[data-progress="3"]::after {
+  width: 100%;
+}
+
 .step {
-  --size: 2rem;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  z-index: 1;
+}
+
+/* Step number circle */
+.step__number {
+  --size: 2.3rem;
 
   width: var(--size);
   height: var(--size);
@@ -32,51 +80,26 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: var(--space-100);
-  border: 1.5px solid var(--clr-neutral-600);
   background-color: var(--clr-neutral-600);
   color: var(--clr-neutral-100);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-sm-200);
   font-weight: var(--font-weight-medium);
   transition: all 0.3s ease-in-out;
-  position: relative;
-
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: 50%;
-    transform: translateY(50%);
-    width: 50vw;
-    height: 2px;
-    background-color: var(--clr-neutral-600);
-    z-index: -1;
-  }
-  &::before {
-    left: 0;
-    transform: translateX(-100%);
-  }
-  &::after {
-    right: 0;
-    transform: translateX(100%);
-  }
+  flex-shrink: 0;
 }
 
-.step--active {
-  border-color: var(--clr-primary-400);
+/* Active step styling */
+.step--active .step__number {
+  border: 2px solid var(--clr-primary-400);
   background-color: var(--clr-neutral-100);
   color: var(--clr-primary-400);
 }
 
-.step--completed {
+/* Completed step styling */
+.step--completed .step__number {
   background-color: var(--clr-primary-400);
   color: var(--text-reverse);
   border-color: var(--clr-primary-400);
-}
-
-.step--active::before,
-.step--completed::before {
-  background-color: var(--clr-primary-400);
 }
 
 .checkbox-cards-container {
@@ -94,7 +117,7 @@ body {
 .buttons-container {
   display: flex;
   gap: var(--space-500);
-  margin-top: calc(var(--space-base) * 18);
+  margin-top: calc(var(--space-base) * 13.5) !important;
 }
 
 .checkbox-card__text {
@@ -107,14 +130,13 @@ body {
 }
 .earning-layout-container {
   display: grid;
-  gap: var(--space-900);
+  column-gap: var(--space-900);
+  row-gap: calc(var(--space-100) * 22);
   margin-top: var(--space-900);
 }
 
-.earning-forms {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-700);
+.earning-forms > * + * {
+  margin-top: var(--space-700);
 }
 .additional-info-form {
   display: grid;
@@ -168,6 +190,14 @@ body {
     flex-direction: row;
     align-items: stretch;
   }
+  .checkbox-cards-container .checkbox-card {
+    display: flex;
+    flex-direction: column;
+  }
+  .checkbox-cards-container .checkbox-card__content {
+    flex: 1;
+    height: 100%; /* Force full height */
+  }
   .checkbox-cards-container > * {
     width: 100%;
   }
@@ -179,5 +209,13 @@ body {
 @media (min-width: 30rem) {
   .additional-info-form {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 50rem) {
+  .buttons-container {
+    > * {
+      padding-inline: var(--space-500) !important;
+    }
   }
 }

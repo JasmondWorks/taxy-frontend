@@ -21,11 +21,8 @@
 
     <section class="questionnaire">
       <div class="container container--narrow">
-        <div class="steps-indicator">
-          <div class="step step--completed" data-target="step-1">1</div>
-          <div class="step step--active" data-target="step-2">2</div>
-          <div class="step" data-target="step-3">3</div>
-          <div class="step" data-target="step-4">4</div>
+        <div class="steps-indicator" data-progress="1">
+          <!-- Rendered dynamically -->
         </div>
       </div>
       <div class="container questions-container">
@@ -56,6 +53,7 @@
       });
     </script>
 
+    <script src="js/shared.js"></script>
     <script src="js/questionnaire.js"></script>
   </body>
 </html>

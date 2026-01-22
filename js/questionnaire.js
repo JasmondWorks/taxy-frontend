@@ -527,8 +527,9 @@ let questions = [
     lifeInsurancePremium: 0,
     annualRent: 0,
   },
+  { id: 4 },
 ];
-let currentQuestionIndex = 0;
+let currentQuestionIndex = 2;
 
 document.addEventListener("DOMContentLoaded", renderQuestion);
 
@@ -572,11 +573,17 @@ questionsContainer.addEventListener("click", (e) => {
       renderQuestion();
     }
   }
+
+  if (e.target.classList.contains("previous-button")) {
+    if (currentQuestionIndex > 0) {
+      currentQuestionIndex--;
+      renderQuestion();
+    }
+  }
 });
 
 function getCheckboxQuestionTemplate(option, index) {
   const html = `<div class="checkbox-card ${option.isSelected ? "checkbox-card--active" : ""}" data-id="${index}">
-              <div class="checkbox-card__content" data-id="${index}">
                 <div class="checkbox-card__check">
                   <i class="ri-check-line"></i>
                 </div>
@@ -593,16 +600,41 @@ function getCheckboxQuestionTemplate(option, index) {
                       : ""
                   }
                 </div>
-              </div>
             </div>`;
 
   return html;
 }
 
-function renderQuestion() {
-  const question = questions[currentQuestionIndex];
+function renderStepsIndicator(currentQuestionIndex) {
+  const stepHtml = questions
+    .map((_, index) => {
+      return `<div class="step ${index < currentQuestionIndex ? "step--completed" : ""} ${index === currentQuestionIndex ? "step--active" : ""}" data-target="step-${index + 1}">
+            <span class="step__number">${index + 1}</span>
+          </div>`;
+    })
+    .join("");
 
-  console.log(currentQuestionIndex);
+  const stepsIndicator = document.querySelector(".steps-indicator");
+
+  stepsIndicator.innerHTML = stepHtml;
+}
+
+function renderQuestion() {
+  renderStepsIndicator(currentQuestionIndex);
+
+  if (currentQuestionIndex >= questions.length) {
+    questionsContainer.innerHTML = `
+      <div class="steps__content">
+        <div class="flow">
+          <h1 class="heading-primary">All done!</h1>
+          <p class="text-muted">Thank you for completing the questionnaire.</p>
+        </div>
+      </div>`;
+
+    return;
+  }
+
+  const question = questions[currentQuestionIndex];
 
   const checkboxHtml = `<div class="steps__content" data-target="step-1">
           <div class="flow">
@@ -629,7 +661,7 @@ function renderQuestion() {
           </div>
           <div class="buttons-container">
             <button type="button" class="btn btn--outline previous-button">
-              <i class="ri-arrow-left-long-line"></i> Skip
+              <i class="ri-arrow-left-long-line"></i> Previous
             </button>
             <button type="button" class="btn btn--primary btn--wide submit-button">
               Next <i class="ri-arrow-right-long-line"></i>
@@ -650,19 +682,18 @@ function renderQuestion() {
           </div>
           <div class="earning-layout-container">
             <div>
-              <div class="earning-forms">
+              <form class="earning-forms">
                 <div>
                   <p class="form-title">
                     <small>BASIC INFORMATION</small>
                   </p>
                   <div class="form-container">
-                    <form class="basic-info-form">
+                    <div class="basic-info-form">
                       <div class="naira-input-field required">
                         <div class="input-label-container">
                           <label for="gross-income"
                             >Gross annual income (₦)
-                            <span class="required-icon">*</span></label
-                          >
+                          </label>
                           <div class="dropdown">
                             <button class="dropdown__trigger" type="button">
                               <i class="ri-information-line text-muted"></i>
@@ -677,13 +708,15 @@ function renderQuestion() {
                         </div>
                         <div class="input-wrapper">
                           <input
-                            type="text"
+                            required
+                            type="number"
+                            min="0"
                             id="gross-annual-income"
                             placeholder="0.00"
                           />
                         </div>
                       </div>
-                    </form>
+                    </div>
                   </div>
                 </div>
                 <div>
@@ -691,8 +724,8 @@ function renderQuestion() {
                     <small>ADDITIONAL INFORMATION (OPTIONAL)</small>
                   </p>
                   <div class="form-container">
-                    <form class="additional-info-form">
-                      <div class="naira-input-field required">
+                    <div class="additional-info-form">
+                      <div class="naira-input-field">
                         <div class="input-label-container">
                           <label for="nhf-contribution"
                             >NHF Contribution (Annual)
@@ -711,14 +744,14 @@ function renderQuestion() {
                         </div>
                         <div class="input-wrapper">
                           <input
-                          required
-                            type="text"
+                            type="number"
+                            min="0"
                             id="nhf-contribution"
                             placeholder="0.00"
                           />
                         </div>
                       </div>
-                      <div class="naira-input-field required">
+                      <div class="naira-input-field">
                         <div class="input-label-container">
                           <label for="nhis-contribution"
                             >NHIS Contribution (Annual)
@@ -737,13 +770,14 @@ function renderQuestion() {
                         </div>
                         <div class="input-wrapper">
                           <input
-                            type="text"
+                            type="number"
+                            min="0"
                             id="nhis-contribution"
                             placeholder="0.00"
                           />
                         </div>
                       </div>
-                      <div class="naira-input-field required">
+                      <div class="naira-input-field ">
                         <div class="input-label-container">
                           <label for="pension-contribution"
                             >Pension Contribution (Annual)
@@ -762,13 +796,14 @@ function renderQuestion() {
                         </div>
                         <div class="input-wrapper">
                           <input
-                            type="text"
+                            type="number"
+                            min="0"
                             id="pension-contribution"
                             placeholder="0.00"
                           />
                         </div>
                       </div>
-                      <div class="naira-input-field required">
+                      <div class="naira-input-field ">
                         <div class="input-label-container">
                           <label for="interest-on-loan"
                             >Interest on Loan
@@ -787,13 +822,14 @@ function renderQuestion() {
                         </div>
                         <div class="input-wrapper">
                           <input
-                            type="text"
+                            type="number"
+                            min="0"
                             id="interest-on-loan"
                             placeholder="0.00"
                           />
                         </div>
                       </div>
-                      <div class="naira-input-field required">
+                      <div class="naira-input-field ">
                         <div class="input-label-container">
                           <label for="life-insurance-premium"
                             >Life Insurance Premium (You & Spouse)
@@ -812,13 +848,14 @@ function renderQuestion() {
                         </div>
                         <div class="input-wrapper">
                           <input
-                            type="text"
+                            type="number"
+                            min="0"
                             id="life-insurance-premium"
                             placeholder="0.00"
                           />
                         </div>
                       </div>
-                      <div class="naira-input-field required">
+                      <div class="naira-input-field ">
                         <div class="input-label-container">
                           <label for="annual-rent"
                             >Annual Rent
@@ -837,16 +874,26 @@ function renderQuestion() {
                         </div>
                         <div class="input-wrapper">
                           <input
-                            type="text"
+                            type="number"
+                            min="0"
                             id="annual-rent"
                             placeholder="0.00"
                           />
                         </div>
                       </div>
-                    </form>
+                    </div>
                   </div>
                 </div>
+                  <div class="buttons-container">
+                <button type="button" class="btn btn--outline previous-button">
+                  <i class="ri-arrow-left-long-line"></i> Previous
+                </button>
+                <!-- Changed to type=button to handle validation manually in JS -->
+                <button type="button" class="btn btn--primary btn--wide submit-button">
+                  Calculate tax <i class="ri-arrow-right-long-line"></i>
+                </button>
               </div>
+              </form>
             </div>
             <div class="paye-tax-breakdown-container">
               <h3 class="text-center title">PAYE tax bracket breakdown</h3>
@@ -911,14 +958,6 @@ function renderQuestion() {
                 </div>
               </div>
             </div>
-            <div class="buttons-container">
-                <button type="button" class="btn btn--outline previous-button">
-                  <i class="ri-arrow-left-long-line"></i> Skip
-                </button>
-                <button type="button" class="btn btn--primary btn--wide submit-button">
-                  Next <i class="ri-arrow-right-long-line"></i>
-                </button>
-              </div>
           </div>
         </div>`;
 
@@ -938,9 +977,16 @@ function submitFormQuestion() {
   const currentQuestion = questions[currentQuestionIndex];
 
   // Get values from inputs
-  const grossAnnualIncome = document.getElementById(
-    "gross-annual-income",
-  ).value;
+  const grossIncomeInput = document.getElementById("gross-annual-income");
+
+  if (!grossIncomeInput.value) {
+    // Trigger browser validation UI
+    const form = document.querySelector(".earning-forms");
+    if (form) form.reportValidity();
+    return;
+  }
+
+  const grossAnnualIncome = grossIncomeInput.value;
   const nhfContribution = document.getElementById("nhf-contribution").value;
   const nhisContribution = document.getElementById("nhis-contribution").value;
   const pensionContribution = document.getElementById(
@@ -973,7 +1019,65 @@ function submitFormQuestion() {
 
   console.log("Form submitted. Question data updated:", currentQuestion);
 
+  const calculatedTax = calculateTax(currentQuestion);
+
+  console.log("Calculated tax:", calculatedTax);
   // Proceed
-  currentQuestionIndex++;
-  renderQuestion();
+  // currentQuestionIndex++;
+  // renderQuestion();
+}
+
+function calculateTax({
+  grossAnnualIncome,
+  nhfContribution = 0,
+  nhisContribution = 0,
+  pensionContribution = 0,
+  interestOnLoan = 0,
+  lifeInsurancePremium = 0,
+  annualRent = 0,
+}) {
+  let taxableIncome =
+    grossAnnualIncome -
+    (nhfContribution +
+      nhisContribution +
+      pensionContribution +
+      interestOnLoan +
+      lifeInsurancePremium +
+      annualRent);
+  const totalTax = [];
+
+  const taxBrackets = [
+    { bracket: "First ₦800,000", rate: 0, limit: 800000 },
+    { bracket: "Next ₦2,200,000", rate: 0.15, limit: 2200000 },
+    { bracket: "Next ₦9,000,000", rate: 0.18, limit: 9000000 },
+    { bracket: "Next ₦13,000,000", rate: 0.21, limit: 13000000 },
+    { bracket: "Next ₦25,000,000", rate: 0.23, limit: 25000000 },
+    { bracket: "Next ₦50,000,000", rate: 0.25, limit: 50000000 },
+  ];
+
+  for (let i = 0; i < taxBrackets.length; i++) {
+    const bracket = taxBrackets[i];
+    if (taxableIncome > bracket.limit) {
+      totalTax.push({
+        ...bracket,
+        taxableIncome:
+          taxableIncome - bracket.limit > 0 ? taxableIncome - bracket.limit : 0,
+        taxDue: taxableIncome > 0 ? bracket.limit * bracket.rate : 0,
+      });
+      taxableIncome -= bracket.limit;
+    } else {
+      totalTax.push({
+        ...bracket,
+        taxableIncome:
+          taxableIncome - bracket.limit > 0 ? taxableIncome - bracket.limit : 0,
+        taxDue: taxableIncome > 0 ? taxableIncome * bracket.rate : 0,
+      });
+      taxableIncome = 0;
+    }
+  }
+  const calculatedTaxAmount = totalTax.reduce(
+    (acc, curr) => acc + curr.taxDue,
+    0,
+  );
+  return { totalTax, calculatedTaxAmount };
 }
