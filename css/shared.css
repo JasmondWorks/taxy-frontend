@@ -424,6 +424,10 @@ tfoot td {
   position: relative;
   margin-right: var(--space-500);
   height: 100%;
+  cursor: pointer;
+}
+.checkbox-card > * {
+  pointer-events: none;
 }
 
 .checkbox-card input[type="checkbox"],
