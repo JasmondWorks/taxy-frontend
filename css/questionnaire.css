@@ -1,0 +1,183 @@
+body {
+  background-image: linear-gradient(
+    to bottom,
+    var(--clr-primary-100) 0%,
+    white 8%
+  );
+
+  background-size: cover;
+  min-height: 100vh;
+}
+
+/* Layout */
+
+/* Components */
+
+.steps-indicator {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: var(--space-200);
+  overflow: hidden;
+  margin-bottom: var(--space-900);
+}
+
+.step {
+  --size: 2rem;
+
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-100);
+  border: 1.5px solid var(--clr-neutral-600);
+  background-color: var(--clr-neutral-600);
+  color: var(--clr-neutral-100);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  transition: all 0.3s ease-in-out;
+  position: relative;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 50%;
+    transform: translateY(50%);
+    width: 50vw;
+    height: 2px;
+    background-color: var(--clr-neutral-600);
+    z-index: -1;
+  }
+  &::before {
+    left: 0;
+    transform: translateX(-100%);
+  }
+  &::after {
+    right: 0;
+    transform: translateX(100%);
+  }
+}
+
+.step--active {
+  border-color: var(--clr-primary-400);
+  background-color: var(--clr-neutral-100);
+  color: var(--clr-primary-400);
+}
+
+.step--completed {
+  background-color: var(--clr-primary-400);
+  color: var(--text-reverse);
+  border-color: var(--clr-primary-400);
+}
+
+.step--active::before,
+.step--completed::before {
+  background-color: var(--clr-primary-400);
+}
+
+.checkbox-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-700);
+  margin-top: var(--space-900);
+}
+
+.steps__content {
+  display: flex;
+  flex-direction: column;
+}
+
+.buttons-container {
+  display: flex;
+  gap: var(--space-500);
+  margin-top: calc(var(--space-base) * 18);
+}
+
+.checkbox-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-200);
+}
+.checkbox-card__description {
+  line-height: 1.15;
+}
+.earning-layout-container {
+  display: grid;
+  gap: var(--space-900);
+  margin-top: var(--space-900);
+}
+
+.earning-forms {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-700);
+}
+.additional-info-form {
+  display: grid;
+  column-gap: var(--space-400);
+  row-gap: var(--space-600);
+}
+.form-title {
+  padding-bottom: var(--space-100);
+  line-height: 1.15;
+  margin-bottom: var(--space-400);
+  color: var(--text-muted);
+
+  font-weight: var(--font-weight-medium);
+
+  /* Hide the default border */
+  border: none;
+  /* Define the dashed effect using a background gradient */
+  background-image: linear-gradient(
+    to right,
+    var(--clr-neutral-300) 50%,
+    transparent 0%
+  );
+  /* Set the size of each dash/space segment (e.g., 5px dash, 5px space) */
+  background-size: 10px 1px;
+  /* Repeat the gradient horizontally */
+  background-repeat: repeat-x;
+  /* Position the gradient at the bottom (adjust as needed for top/left/right) */
+  background-position: bottom;
+}
+
+.form {
+  display: grid;
+  column-gap: var(--space-500);
+  row-gap: var(--space-700);
+}
+.col-span-2 {
+  column-span: 2;
+}
+.paye-tax-breakdown-container {
+  /* border: 1px solid var(--border-color-neutral--lighter); */
+  border-radius: var(--radius-lg);
+  /* padding: var(--space-400); */
+  min-width: 0; /* Allows horizontal scroll in children (like tables) */
+}
+.paye-tax-breakdown-container .title {
+  margin-bottom: var(--space-400);
+}
+
+@media (min-width: 50rem) {
+  .checkbox-cards-container {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .checkbox-cards-container > * {
+    width: 100%;
+  }
+  .earning-layout-container {
+    grid-template-columns: 5fr 4fr;
+  }
+}
+
+@media (min-width: 30rem) {
+  .additional-info-form {
+    grid-template-columns: 1fr 1fr;
+  }
+}
