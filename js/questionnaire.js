@@ -698,6 +698,30 @@ let questions = [
 ];
 let currentQuestionIndex = 0;
 
+// Load persisted questions state if available
+const savedQuestions = localStorage.getItem("questionsState");
+if (savedQuestions) {
+  try {
+    questions = JSON.parse(savedQuestions);
+  } catch (e) {
+    console.error("Failed to parse saved questions state", e);
+  }
+}
+
+// Check for view=results param to restore state correctly
+const urlParams = new URL(window.location.href).searchParams;
+if (urlParams.get("view") === "results") {
+  // If viewing results, we assume we are at the end (index 3 for 4 items where 3 is result placeholder)
+  // Ensure we have tax results before jumping there, otherwise fallback to 0
+  if (localStorage.getItem("calculatedTax")) {
+    currentQuestionIndex = 3;
+  }
+}
+
+function saveQuestionsState() {
+  localStorage.setItem("questionsState", JSON.stringify(questions));
+}
+
 document.addEventListener("DOMContentLoaded", renderQuestion);
 
 questionsContainer.addEventListener("click", (e) => {
@@ -712,6 +736,7 @@ questionsContainer.addEventListener("click", (e) => {
 
     // Select the clicked option
     currentQuestion.options[optionIndex].isSelected = true;
+    saveQuestionsState();
 
     renderQuestion();
   }
@@ -932,7 +957,7 @@ function renderTaxResults(calculatedTax) {
             <button type="button" class="btn btn--outline previous-button">
               <i class="ri-arrow-left-long-line"></i> Previous
             </button>
-            <button onclick="goToPage('tax-exemption-business-owner.html')" type="button" class="btn btn--primary btn--wide submit-button">
+            <button onclick="goToPage('next-steps-Above800k.html')" type="button" class="btn btn--primary btn--wide submit-button">
               Next steps <i class="ri-arrow-right-long-line"></i>
             </button>
           </div>          
@@ -1195,8 +1220,8 @@ function renderTaxResults(calculatedTax) {
             <button type="button" class="btn btn--outline previous-button">
               <i class="ri-arrow-left-long-line"></i> Previous
             </button>
-            <button type="button" class="btn btn--primary btn--wide submit-button">
-              Next <i class="ri-arrow-right-long-line"></i>
+            <button onclick="goToPage('next-steps-businessowner.html')" type="button" class="btn btn--primary btn--wide">
+              Next steps <i class="ri-arrow-right-long-line"></i>
             </button>
           </div>
         </div>`;
@@ -1286,8 +1311,8 @@ function renderTaxResults(calculatedTax) {
             <button type="button" class="btn btn--outline previous-button">
               <i class="ri-arrow-left-long-line"></i> Previous
             </button>
-            <button type="button" class="btn btn--primary btn--wide submit-button">
-              Next <i class="ri-arrow-right-long-line"></i>
+            <button onclick="goToPage('next-steps-Lessthan800k.html')" type="button" class="btn btn--primary btn--wide">
+              Next steps <i class="ri-arrow-right-long-line"></i>
             </button>
           </div>
         </div>`;
@@ -1346,9 +1371,13 @@ function renderStepsIndicator(currentQuestionIndex) {
 function renderQuestion() {
   renderStepsIndicator(currentQuestionIndex);
 
-  if (currentQuestionIndex === questions.length - 1) {
-    const calculatedTax = JSON.parse(localStorage.getItem("calculatedTax"));
-    const taxResultsHtml = renderTaxResults(calculatedTax);
+  const taxResults = JSON.parse(localStorage.getItem("calculatedTax"));
+
+  // Only force results if we are at the end (index 3) AND have results.
+  // Or if the URL explicitly asks for it (handled by initial index set to 3).
+  // If user clicked "Previous" from results, currentQuestionIndex will be 2, so we show Q3.
+  if (taxResults && currentQuestionIndex >= 3) {
+    const taxResultsHtml = renderTaxResults(taxResults);
     questionsContainer.innerHTML = taxResultsHtml;
     // Re-attach listeners for the new buttons in the results page
     return;
@@ -1626,69 +1655,6 @@ function renderQuestion() {
                 </button>
               </div>
               </form>
-            </div>
-            <div class="paye-tax-breakdown-container">
-              <h3 class="text-center title">PAYE tax bracket breakdown</h3>
-
-              <div class="tabs">
-                <div class="tabs__buttons">
-                  <button class="tab-button tab-button--active">Old Law</button>
-                  <button class="tab-button">New Law</button>
-                </div>
-                <div class="tabs__content-container">
-                  <div class="table-container">
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>Tax bracket</th>
-                          <th>Taxable Income (₦)</th>
-                          <th>Tax Due (₦)</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>First ${formatCurrency(800000)} @ 0%</td>
-                          <td>${formatCurrency(300000)}</td>
-                          <td>0</td>
-                        </tr>
-                        <tr>
-                          <td>Next ${formatCurrency(2200000)} @ 15%</td>
-                          <td>${formatCurrency(300000)}</td>
-                          <td>${formatCurrency(330000)}</td>
-                        </tr>
-                        <tr>
-                          <td>Next ${formatCurrency(2200000)} @ 15%</td>
-                          <td>${formatCurrency(300000)}</td>
-                          <td>${formatCurrency(330000)}</td>
-                        </tr>
-                        <tr>
-                          <td>Next ${formatCurrency(2200000)} @ 15%</td>
-                          <td>300,000</td>
-                          <td>330,000</td>
-                        </tr>
-                        <tr>
-                          <td>Next ${formatCurrency(2200000)} @ 15%</td>
-                          <td>300,000</td>
-                          <td>330,000</td>
-                        </tr>
-                        <tr>
-                          <td>Next ${formatCurrency(2200000)} @ 15%</td>
-                          <td>300,000</td>
-                          <td>330,000</td>
-                        </tr>
-                      </tbody>
-                      <tfoot>
-                        <tr>
-                          <th>Total</th>
-                          <th>300,000</th>
-                          <th>330,000</th>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                  <div></div>
-                </div>
-              </div>
             </div>
           </div>
         </div>`;
@@ -2048,6 +2014,7 @@ function submitFormQuestion() {
   currentQuestion.lifeInsurancePremium = parseCurrency(lifeInsurancePremium);
   currentQuestion.annualRent = parseCurrency(annualRent);
 
+  saveQuestionsState();
   const calculatedTax = calculateTax(currentQuestion);
 
   localStorage.setItem("calculatedTax", JSON.stringify(calculatedTax));
@@ -2058,6 +2025,8 @@ function submitFormQuestion() {
 
 function resetQuestionnaire() {
   localStorage.clear();
+  // Clear questions state specifically since we persist it now
+  localStorage.removeItem("questionsState");
 
   questions = questions.map((q, index) => {
     if (index <= 1) {
