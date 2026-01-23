@@ -702,7 +702,7 @@ let currentQuestionIndex = 0;
 const savedQuestions = localStorage.getItem("questionsState");
 if (savedQuestions) {
   try {
-    questions = JSON.parse(savedQuestions);
+    questions = JSON.parse(savedQuestions).questions;
   } catch (e) {
     console.error("Failed to parse saved questions state", e);
   }
@@ -719,7 +719,12 @@ if (urlParams.get("view") === "results") {
 }
 
 function saveQuestionsState() {
-  localStorage.setItem("questionsState", JSON.stringify(questions));
+  const jobOccupation = getJobOccupation();
+
+  localStorage.setItem(
+    "questionsState",
+    JSON.stringify({ questions, jobOccupation }),
+  );
 }
 
 document.addEventListener("DOMContentLoaded", renderQuestion);
@@ -796,9 +801,21 @@ questionsContainer.addEventListener("click", (e) => {
 });
 
 function renderTaxResults(calculatedTax) {
+  let savedState = {};
+  try {
+    savedState = JSON.parse(localStorage.getItem("questionsState")) || {};
+  } catch (e) {
+    console.error("Failed to parse questions state", e);
+  }
+
+  // Fallback to current state if localStorage is empty or corrupt
   const jobTitles = questions[1].options.find((opt) => opt.isSelected === true);
 
-  let jobOccupation = `${jobTitles?.titles[0]} (${jobTitles?.titles.slice(1).join(", ")})`;
+  // Use saved jobOccupation or fallback to generating it
+  let jobOccupation = savedState.jobOccupation || getJobOccupation();
+
+  // Logic identifier requires the array of titles, which we get from the selected option
+  // We prioritize the current 'questions' state which should be loaded
   let jobOccupationTitle = getJobOccupationTitle(jobTitles?.titles || []);
 
   function getJobOccupationTitle(titles) {
@@ -2017,7 +2034,10 @@ function submitFormQuestion() {
   saveQuestionsState();
   const calculatedTax = calculateTax(currentQuestion);
 
-  localStorage.setItem("calculatedTax", JSON.stringify(calculatedTax));
+  localStorage.setItem(
+    "calculatedTax",
+    JSON.stringify({ ...calculatedTax, jobOccupation: getJobOccupation() }),
+  );
   // Proceed
   currentQuestionIndex++;
   renderQuestion();
@@ -2181,4 +2201,9 @@ function formatCurrency(amount) {
 
 function goToPage(url) {
   window.location.href = url;
+}
+
+function getJobOccupation() {
+  const jobTitles = questions[1].options.find((opt) => opt.isSelected === true);
+  return `${jobTitles?.titles[0]} (${jobTitles?.titles.slice(1).join(", ")})`;
 }
