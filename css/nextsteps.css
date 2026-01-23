@@ -65,6 +65,7 @@ body {
 .card.left-red { background: #fff5f5; }
 .card.left-purple { background: #f9f5ff; }
 .card.left-yellow { background: #fffaf2; }
+.card.left-brown { background: #fff5f5; }
 
 .card-content {
   display: flex;
@@ -107,6 +108,7 @@ body {
 .action.blue { color: #0284c7; }
 .action.green { color: #16a34a; }
 .action.red { color: #dc2626; }
+.action.brown { color: #e29c56cb; }
 
 .footer {
   display: flex;
