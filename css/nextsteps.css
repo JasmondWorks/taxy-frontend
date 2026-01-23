@@ -94,3 +94,35 @@ body {
   font-size: 13px;
   color: var(--text-muted);
 }
+
+.action {
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.action.blue { color: #0284c7; }
+.action.green { color: #16a34a; }
+.action.red { color: #dc2626; }
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+
+.btn {
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
