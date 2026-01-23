@@ -50,3 +50,47 @@ body {
   font-size: 15px;
   color: var(--text-muted);
 }
+.card {
+  border: 2px dashed var(--border-dashed);
+  border-radius: 16px;
+  padding: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.card.left-blue { background: #f0fbff; }
+.card.left-green { background: #f6fff9; }
+.card.left-red { background: #fff5f5; }
+.card.left-purple { background: #f9f5ff; }
+.card.left-yellow { background: #fffaf2; }
+
+.card-content {
+  display: flex;
+  gap: 24px;
+}
+
+.step {
+  font-size: 40px;
+  font-weight: 700;
+  opacity: 0.2;
+}
+
+.details h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.details p {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.details ul {
+  padding-left: 18px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
