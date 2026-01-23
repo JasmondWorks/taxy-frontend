@@ -295,7 +295,7 @@ body {
     width: 100%;
   }
   .earning-layout-container {
-    grid-template-columns: 5fr 4fr;
+    /* grid-template-columns: 5fr 4fr; */
   }
 }
 
