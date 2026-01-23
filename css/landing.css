@@ -73,11 +73,52 @@ nav ul li a::after {
 nav ul li a:hover::after {    
     width: 48px;
 }
-.brand{
-    color: var(--black);
+/* Container styling to match Figma exactly */
+.taxy-container {
+    background-color: #00CA8D; /* Exact Hex */
+    display: inline-flex;
+    padding: 12px 35px; /* Adjusted for the exact pill shape */
+    border-radius: 100px; /* Perfect pill shape */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.taxy-logo-link {
     text-decoration: none;
-    font-weight: 800;
-    font-size: 2.4rem;
+    display: inline-block;
+}
+
+.logo-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* The Ultra-Bold Text */
+.taxy-text {
+    color: white;
+    font-family: 'Inter', sans-serif; /* If Inter isn't thick enough, try 'Archivo Black' */
+    font-weight: 900; 
+    font-size: 52px;
+    letter-spacing: -4px; /* Makes letters touch */
+    line-height: 1;
+    margin: 0;
+    padding-left: 10px; 
+}
+.check-icon {
+    font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;
+    color: white;
+    font-size: 20px !important;
+    position: absolute;
+    left: -8px; 
+    top: 2px;
+    background: #00CA8D;
+    border-radius: 50%;
+}
+.taxy-logo-link:hover .taxy-container {
+    filter: brightness(0.95);
+    transform: translateY(-1px);
 }
 .started, .started2{
     background-color: var(--primary-green);
@@ -250,7 +291,7 @@ nav ul li a:hover::after {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--section-bg);
+    background-color:#DCFCE7;
     flex-direction: column;
     padding: 60px;
 }
@@ -305,11 +346,11 @@ nav ul li a:hover::after {
     align-items: center;
     gap: 5em;
 }
-.emptybox{
+/* .emptybox{
     background-color: var(--primary-green);
     height: 300px;
     width: 500px;
-}
+} */
 .whychoose{
     width: 600px;
 }
@@ -392,19 +433,84 @@ nav ul li a:hover::after {
   background-color: #F9FAFB;
   transform: translateY(-2px); 
 } 
-.footer-features{
+.end-features{
     display: flex;
     gap: 30px;
     margin-top: 30px;
 }
-.footer-features .free{
+.end-features .free{
     color: white;
     font-size: 1rem;
 }
-.footer-features .success-tick{
+.end-features .success-tick{
     color: white !important;
     background-color: transparent !important;
     font-size: 24px;
+}
+footer {
+    background-color: #111111;
+    color: #ffffff;
+    padding: 60px 10%;
+}
+.footer-features {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 40px;
+    border-bottom: 1px solid #333; 
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+.taxy-col{
+    width: 300px;
+}
+.taxy-col h4{
+    font-weight: 800;
+    font-size: 2.4rem;
+}
+.logo-footer{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.logo-footer p{
+    background-color: var(--primary-green);
+    padding: 6px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 1.6rem;
+    margin-top: -20px;
+}
+.footer-col h4 {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+}
+.footer-col ul li {
+    margin-bottom: 12px;
+}
+.footer-col ul li a {
+    color: #b3b3b3;
+    text-decoration: none;
+    transition: 0.3s;
+}
+.footer-col ul li a:hover {
+    color: #00ca8d; 
+}
+.contact-info li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #b3b3b3;
+}
+
+.contact-info .material-symbols-outlined {
+    font-size: 18px;
 }
 @media (max-width:768px) {
     .nav-bar{
@@ -478,7 +584,7 @@ nav ul li a:hover::after {
         margin-left: 0;
     }
     .Everything{
-        margin: 0 0 0 0;
+        margin: 20px 0 0 0;
     }
     .content{
         width: auto;
@@ -490,6 +596,7 @@ nav ul li a:hover::after {
     .intent{
         display: flex;
         flex-wrap: wrap;
+        padding: 30px;
     }
     .know-wrapper{
         display: flex;
@@ -510,8 +617,11 @@ nav ul li a:hover::after {
         gap: 20px;
     }
     .box{
-       width: 270px;
-       height: 300px;
+       width: auto;
+    }
+    .box:hover{
+        border:  1px solid var(--primary-green);
+        transform: translateY(-2px);
     }
     .How-works{
         margin: 20px 0 0 0;
@@ -522,6 +632,7 @@ nav ul li a:hover::after {
     .work-context{
         padding: 20px;
         text-align: center;
+        width: auto;
     }
     .box-wrapper{
         display: flex;
@@ -529,20 +640,24 @@ nav ul li a:hover::after {
         gap: 28px;
     }
     .box2{
-        width: 270px;
+        width: auto;
+    }
+    .box2:hover{
+        border: 1px solid var(--primary-green);
+        transform: translateY(-2px);
     }
     .understand{
         margin-left: 0;
     }
     .last-content{
-        margin: 20px;
+        margin: 20px 0 0 0;
     }
     .last-wrapper{
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap:20px
+        gap:20px;
     }
     .emptybox{
         width: 300px;
@@ -552,6 +667,10 @@ nav ul li a:hover::after {
         text-align: center;
         padding: 20px;
         width: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
     .whychoose h2{
         font-size: 2.3rem;
@@ -559,16 +678,15 @@ nav ul li a:hover::after {
     }
     .choose_features{
         display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        flex-wrap: nowrap;
     }
     .choose{
         padding: 10px;
     }
+    .comments{
+        width: auto;
+    }
     .redirect-section{
-        margin: 50px 20px 20px 20px;
+        margin: 90px 20px 20px 20px;
         width: auto;
     }
     .conclusion-wrapper{
