@@ -449,7 +449,7 @@ let questions = [
         title: "Corporate Worker",
         subtitle:
           "e.g. salaried employee- banker, nurse, driver, admin,HR, etc",
-        icon: ` <svg width="46" height="62" viewBox="0 0 46 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+        icon: ` <svg class="checkbox-card__icon" width="46" height="62" viewBox="0 0 46 62" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M16.5366 32.8938C11.1565 32.8938 6.77002 28.5232 6.77002 23.1643V17.6274C6.77002 15.184 8.59508 11.4934 11.116 11.3983C12.2734 11.3577 13.1049 11.8862 13.8395 12.3619C15.1343 13.1899 16.3604 13.9755 19.889 11.7647C20.9371 11.1129 22.1897 11.1534 23.3893 11.8862C25.0787 12.9186 26.3031 15.3338 26.3031 17.6274V23.1643C26.3172 28.5232 21.9307 32.8938 16.5366 32.8938ZM11.2393 12.9591C11.2111 12.9591 11.197 12.9591 11.1706 12.9591C9.90398 12.9996 8.33788 15.5769 8.33788 17.6274V23.1643C8.33788 27.6688 12.0144 31.333 16.5366 31.333C21.0604 31.333 24.737 27.6688 24.737 23.1643V17.6274C24.737 15.8623 23.8104 13.9755 22.5719 13.2304C21.8761 12.8093 21.2507 12.7547 20.7187 13.0947C16.3463 15.8217 14.4807 14.6414 12.9816 13.6778C12.3685 13.2709 11.8788 12.9591 11.2393 12.9591Z" fill="currentColor"/>
 <path d="M7.56112 24.7109H5.8858C4.53638 24.7109 3.43359 23.6117 3.43359 22.2676V20.3685C3.43359 19.0244 4.53638 17.9251 5.8858 17.9251H7.56112C7.99624 17.9251 8.35033 18.2774 8.35033 18.7126V23.9376C8.338 24.3586 7.99624 24.7109 7.56112 24.7109ZM5.8858 19.4718C5.3943 19.4718 4.99969 19.8664 4.99969 20.3544V22.2535C4.99969 22.7432 5.3943 23.136 5.8858 23.136H6.77014V19.4718H5.8858Z" fill="currentColor"/>
 <path d="M27.9923 31.9566C27.7616 31.9566 27.5431 31.8615 27.3934 31.673C27.1203 31.3471 27.1626 30.845 27.4885 30.5737L29.4369 28.9583C29.7223 28.7134 30.1451 28.7134 30.4445 28.9583L32.3929 30.5737C32.7188 30.845 32.7734 31.3471 32.488 31.673C32.215 31.9971 31.7112 32.0517 31.3852 31.7681L29.9407 30.5596L28.4962 31.7681C28.3464 31.9038 28.1703 31.9566 27.9923 31.9566Z" fill="currentColor"/>
@@ -529,7 +529,7 @@ let questions = [
   },
   { id: 4 },
 ];
-let currentQuestionIndex = 2;
+let currentQuestionIndex = 0;
 
 document.addEventListener("DOMContentLoaded", renderQuestion);
 
@@ -547,6 +547,11 @@ questionsContainer.addEventListener("click", (e) => {
     currentQuestion.options[optionIndex].isSelected = true;
 
     renderQuestion();
+  }
+
+  if (e.target.classList.contains("reset-button")) {
+    resetQuestionnaire();
+    return;
   }
 
   if (e.target.classList.contains("submit-button")) {
@@ -571,13 +576,11 @@ questionsContainer.addEventListener("click", (e) => {
     if (currentQuestionIndex > 0) {
       currentQuestionIndex--;
       renderQuestion();
-    }
-  }
 
-  if (e.target.classList.contains("previous-button")) {
-    if (currentQuestionIndex > 0) {
-      currentQuestionIndex--;
-      renderQuestion();
+      console.log(
+        "current questin index in previous button click listener",
+        currentQuestionIndex,
+      );
     }
   }
 });
@@ -892,6 +895,9 @@ function renderQuestion() {
                 <button type="button" class="btn btn--primary btn--wide submit-button">
                   Calculate tax <i class="ri-arrow-right-long-line"></i>
                 </button>
+                <button type="button" class="btn btn--primary reset-button">
+                  Reset <i class="ri-arrow-right-long-line"></i>
+                </button>
               </div>
               </form>
             </div>
@@ -964,8 +970,10 @@ function renderQuestion() {
   questionsContainer.innerHTML = question.options ? checkboxHtml : formsHtml;
 }
 function submitCheckboxQuestion() {
-  if (!questions[currentQuestionIndex].options.some((o) => o.isSelected))
+  if (!questions[currentQuestionIndex].options.some((o) => o.isSelected)) {
+    alert("Please select at least one option");
     return;
+  }
 
   if (currentQuestionIndex < questions.length) {
     currentQuestionIndex++;
@@ -1022,9 +1030,38 @@ function submitFormQuestion() {
   const calculatedTax = calculateTax(currentQuestion);
 
   console.log("Calculated tax:", calculatedTax);
+
+  localStorage.setItem("calculatedTax", JSON.stringify(calculatedTax));
   // Proceed
   // currentQuestionIndex++;
   // renderQuestion();
+}
+
+function resetQuestionnaire() {
+  localStorage.clear();
+
+  questions = questions.map((q, index) => {
+    if (index <= 1) {
+      return {
+        ...q,
+        options: q.options.map((opt) => ({ ...opt, isSelected: false })),
+      };
+    } else if (index === 2)
+      return {
+        ...q,
+        grossAnnualIncome: 0,
+        nhfContribution: 0,
+        nhisContribution: 0,
+        pensionContribution: 0,
+        interestOnLoan: 0,
+        lifeInsurancePremium: 0,
+        annualRent: 0,
+      };
+    else return q;
+  });
+
+  currentQuestionIndex = 0;
+  renderQuestion();
 }
 
 function calculateTax({
@@ -1036,14 +1073,22 @@ function calculateTax({
   lifeInsurancePremium = 0,
   annualRent = 0,
 }) {
-  let taxableIncome =
-    grossAnnualIncome -
-    (nhfContribution +
-      nhisContribution +
-      pensionContribution +
-      interestOnLoan +
-      lifeInsurancePremium +
-      annualRent);
+  // Calculate Rent Relief: Lower of 20% of annual rent or N500,000
+  const rentRelief = Math.min(annualRent * 0.2, 500000);
+
+  // Calculate Total Reliefs
+  const totalReliefs =
+    nhfContribution +
+    nhisContribution +
+    pensionContribution +
+    interestOnLoan +
+    lifeInsurancePremium +
+    rentRelief;
+
+  // Calculate Chargeable Income (Gross - Reliefs)
+  // Ensure it doesn't go below zero
+  let taxableIncome = Math.max(0, grossAnnualIncome - totalReliefs);
+
   const totalTax = [];
 
   const taxBrackets = [
@@ -1055,29 +1100,73 @@ function calculateTax({
     { bracket: "Next ₦50,000,000", rate: 0.25, limit: 50000000 },
   ];
 
+  // Logic to handle income exceeding the highest bracket defined
+  // The last bracket (Next 50m) is effectively "Over 50m" if we treat it as the top
+  // However, usually there is a "Above X" bracket. Based on the provided list,
+  // we will assume the last bracket covers everything else or strictly follows the limit.
+  // Standard Nigerian tax usually has a top bracket for "Above X".
+  // Assuming the provided brackets is the complete set for this calculation context.
+  // If taxable income exceeds all brackets, the excess might need a rate.
+  // For now, we will strictly follow the limits provided.
+  // If there's a need for an "Above" bracket, it should be added.
+  // *Correction*: In many systems the last bracket is open-ended.
+  // The user provided "Next 50,000,000 @ 25%".
+  // We will assume any amount above the sum of all limits is taxed at the highest rate (25%)
+  // OR we strictly follow the user provided list. Length of list implies a cap or missing top bracket.
+  // Let's implement it to strictly follow the loop, effectively taxing up to the total limit sum coverage.
+  // BUT, usually "Next 50m" implies a band. I will treat the last bracket as the final band for now.
+  // Ideally, there should remain a "Over X" bracket.
+  // Given the user prompt specifically listed these, I will stick to them.
+  // But wait, if someone earns 100bn, is the tax capped? Unlikely.
+  // I will add a final catch-all if taxableIncome > 0 after loop, using the top rate (25%).
+
   for (let i = 0; i < taxBrackets.length; i++) {
     const bracket = taxBrackets[i];
-    if (taxableIncome > bracket.limit) {
-      totalTax.push({
-        ...bracket,
-        taxableIncome:
-          taxableIncome - bracket.limit > 0 ? taxableIncome - bracket.limit : 0,
-        taxDue: taxableIncome > 0 ? bracket.limit * bracket.rate : 0,
-      });
-      taxableIncome -= bracket.limit;
-    } else {
-      totalTax.push({
-        ...bracket,
-        taxableIncome:
-          taxableIncome - bracket.limit > 0 ? taxableIncome - bracket.limit : 0,
-        taxDue: taxableIncome > 0 ? taxableIncome * bracket.rate : 0,
-      });
-      taxableIncome = 0;
-    }
+
+    // Determine the amount of income that falls into this bracket
+    const incomeInBracket = Math.min(taxableIncome, bracket.limit);
+
+    const taxDue = incomeInBracket * bracket.rate;
+
+    totalTax.push({
+      bracket: bracket.bracket,
+      taxableIncome: incomeInBracket,
+      taxDue: taxDue,
+    });
+
+    taxableIncome -= incomeInBracket;
+
+    // Stop if no more income to tax
+    if (taxableIncome <= 0) break;
   }
+
+  // Handle any remaining income above the defined brackets (Exceeding ~100m total defined limits)
+  // Warning: User didn't provide a "Above X" bracket.
+  // I will append it as "Balance" at 25% (highest rate observed) to be safe,
+  // or just leave it untaxed if that's the strict requirement.
+  // Given the explicit list, I'll stop at the loop.
+  // BUT, logically, the last bracket often acts as the "rest".
+  // Let's stick to the loop logic which consumes `taxableIncome` step by step.
+  // If `taxableIncome` > 0 after loop, it means income exceeded 800k+2.2m+9m+13m+25m+50m = 100m.
+  // I will add a check for any remainder.
+
+  if (taxableIncome > 0) {
+    totalTax.push({
+      bracket: "Above ₦100,000,000",
+      taxableIncome: taxableIncome,
+      taxDue: taxableIncome * 0.25, // Assuming top rate continues
+    });
+  }
+
   const calculatedTaxAmount = totalTax.reduce(
     (acc, curr) => acc + curr.taxDue,
     0,
   );
-  return { totalTax, calculatedTaxAmount };
+
+  return {
+    totalTax,
+    calculatedTaxAmount,
+    totalReliefs,
+    chargeableIncome: Math.max(0, grossAnnualIncome - totalReliefs),
+  };
 }

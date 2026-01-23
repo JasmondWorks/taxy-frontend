@@ -446,11 +446,17 @@ tfoot td {
   background-color: var(--clr-neutral-200);
 }
 
+/* Checkbox cards container */
+.checkbox-cards-container {
+  display: flex;
+  gap: var(--space-500);
+}
+
 /* Checkbox card */
 .checkbox-card {
   position: relative;
-  margin-right: var(--space-500);
-  height: 100%;
+  /* margin-right: var(--space-500); Removed in favor of gap */
+  flex: 1; /* evenly distribute width */
   cursor: pointer;
 
   border: 1.5px solid var(--clr-neutral-300);
@@ -473,7 +479,8 @@ tfoot td {
   display: none;
 }
 
-.checkbox-card__content {
+.checkbox-card--active {
+  border-color: var(--clr-primary-400);
 }
 
 .checkbox-card__content:hover {
@@ -544,4 +551,66 @@ tfoot td {
   justify-content: space-between;
   align-items: center;
   padding: var(--space-500);
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-400);
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
+  pointer-events: none;
+}
+
+.modal.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+.modal__content {
+  background-color: var(--clr-neutral-100);
+  padding: var(--space-600);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  transform: translateY(20px);
+  transition: transform 0.3s ease-in-out;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.modal.is-open .modal__content {
+  transform: translateY(0);
+}
+
+.modal__close {
+  position: absolute;
+  top: var(--space-400);
+  right: var(--space-400);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 2.2rem;
+  line-height: 1;
+  padding: var(--space-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.modal__close:hover {
+  color: var(--clr-primary-400);
 }
