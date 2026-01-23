@@ -46,10 +46,11 @@ html {
   --clr-purple-100: #faf6ff;
   --clr-purple-200: #eee1ff;
   --clr-purple-300: #d5b4ff;
+  --clr-purple-400: #b436e2;
 
   --clr-green-100: #fafffa;
   --clr-green-200: #d7f4d5;
-  --clr-green-300: #4bb543;
+  --clr-green-400: #4bb543;
 
   --clr-blue-400: #193cb8;
 
@@ -126,16 +127,9 @@ h4,
 h5,
 h6 {
   line-height: 1.15;
-  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+  font-weight: var(--font-weight-semibold);
 }
-
-/* h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: var(--font-weight-medium);
-} */
 
 h1 {
   font-size: var(--font-size-2xl);
@@ -206,6 +200,18 @@ section {
 /* Layout */
 .flow > * + * {
   margin-top: var(--space-100);
+}
+.flow--md > * + * {
+  margin-top: var(--space-400);
+}
+.flow--lg > * + * {
+  margin-top: var(--space-700);
+}
+.flow--xl > * + * {
+  margin-top: var(--space-1000);
+}
+.flow--2xl > * + * {
+  margin-top: var(--space-1200);
 }
 
 /* COMPONENTS */
