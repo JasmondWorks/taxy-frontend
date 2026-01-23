@@ -46,10 +46,11 @@ html {
   --clr-purple-100: #faf6ff;
   --clr-purple-200: #eee1ff;
   --clr-purple-300: #d5b4ff;
+  --clr-purple-400: #b436e2;
 
   --clr-green-100: #fafffa;
   --clr-green-200: #d7f4d5;
-  --clr-green-300: #4bb543;
+  --clr-green-400: #4bb543;
 
   --clr-blue-400: #193cb8;
 
@@ -126,16 +127,9 @@ h4,
 h5,
 h6 {
   line-height: 1.15;
-  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+  font-weight: var(--font-weight-semibold);
 }
-
-/* h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: var(--font-weight-medium);
-} */
 
 h1 {
   font-size: var(--font-size-2xl);
@@ -207,6 +201,18 @@ section {
 .flow > * + * {
   margin-top: var(--space-100);
 }
+.flow--md > * + * {
+  margin-top: var(--space-400);
+}
+.flow--lg > * + * {
+  margin-top: var(--space-700);
+}
+.flow--xl > * + * {
+  margin-top: var(--space-1000);
+}
+.flow--2xl > * + * {
+  margin-top: var(--space-1200);
+}
 
 /* COMPONENTS */
 
@@ -224,6 +230,7 @@ textarea {
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-color-neutral);
   outline: none;
+  font-size: 1.6rem;
 }
 
 input[type="text"],
@@ -236,15 +243,24 @@ textarea {
   }
 }
 
+label {
+  line-height: 1.3;
+  /* white-space: nowrap; */
+}
+
 .naira-input-field {
   display: flex;
   flex-direction: column;
 }
 .input-label-container {
   display: flex;
+  align-items: center;
   gap: var(--space-200);
+  margin-bottom: var(--space-100);
 }
-.naira-input-field .required-icon {
+
+.naira-input-field.required label::after {
+  content: "*";
   transform: translateY(-3px);
   color: var(--clr-error-fg);
   font-size: var(--font-size-md);
@@ -267,16 +283,16 @@ textarea {
 }
 
 .naira-input-field input {
-  padding-left: var(--space-600);
+  padding-left: var(--space-800);
   width: 100%;
 }
 
 .naira-input-field .input-wrapper::before {
   content: "₦";
-  font-size: var(--font-size-sm-200);
   position: absolute;
-  left: var(--space-250);
+  left: var(--space-300);
   pointer-events: none;
+  color: var(--clr-neutral-800);
 }
 
 input[type="text"]:focus,
@@ -306,6 +322,10 @@ td {
   font-size: var(--font-size-sm-200);
   color: var(--clr-neutral-900);
 }
+thead th,
+tfoot th {
+  padding-block: var(--space-150);
+}
 th {
   color: var(--clr-neutral-800);
   font-weight: var(--font-weight-semibold);
@@ -334,11 +354,15 @@ tfoot td {
 }
 .dropdown--active .dropdown__content {
   opacity: 1;
+  pointer-events: auto;
 }
 .dropdown__trigger {
   cursor: pointer;
   background-color: transparent;
   border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .dropdown__content {
   position: absolute;
@@ -352,6 +376,15 @@ tfoot td {
   background-color: var(--clr-neutral-100);
   padding: var(--space-200);
   border: 1px solid var(--border-color-neutral);
+  z-index: 10;
+  width: max-content;
+  max-width: 300px;
+}
+
+.dropdown--up .dropdown__content {
+  bottom: auto;
+  top: 0;
+  transform: translateY(calc(-100% - 5px));
 }
 
 .tabs__buttons {
@@ -419,12 +452,29 @@ tfoot td {
   background-color: var(--clr-neutral-200);
 }
 
+/* Checkbox cards container */
+.checkbox-cards-container {
+  display: flex;
+  gap: var(--space-500);
+}
+
 /* Checkbox card */
 .checkbox-card {
   position: relative;
-  margin-right: var(--space-500);
-  height: 100%;
+  /* margin-right: var(--space-500); Removed in favor of gap */
+  flex: 1; /* evenly distribute width */
   cursor: pointer;
+
+  border: 1.5px solid var(--clr-neutral-300);
+  padding: var(--space-400);
+  border-radius: var(--radius-md);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  gap: var(--space-700);
 }
 .checkbox-card > * {
   pointer-events: none;
@@ -435,17 +485,8 @@ tfoot td {
   display: none;
 }
 
-.checkbox-card__content {
-  padding: var(--space-400);
-  border-radius: var(--radius-md);
-  border: 1.5px solid var(--clr-neutral-300);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  gap: var(--space-700);
+.checkbox-card--active {
+  border-color: var(--clr-primary-400);
 }
 
 .checkbox-card__content:hover {
@@ -516,4 +557,66 @@ tfoot td {
   justify-content: space-between;
   align-items: center;
   padding: var(--space-500);
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-400);
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
+  pointer-events: none;
+}
+
+.modal.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+.modal__content {
+  background-color: var(--clr-neutral-100);
+  padding: var(--space-600);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  transform: translateY(20px);
+  transition: transform 0.3s ease-in-out;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.modal.is-open .modal__content {
+  transform: translateY(0);
+}
+
+.modal__close {
+  position: absolute;
+  top: var(--space-400);
+  right: var(--space-400);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 2.2rem;
+  line-height: 1;
+  padding: var(--space-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.modal__close:hover {
+  color: var(--clr-primary-400);
 }
