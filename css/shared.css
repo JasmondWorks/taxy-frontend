@@ -199,10 +199,10 @@ section {
 
 /* Layout */
 .flow > * + * {
-  margin-top: var(--space-100);
+  margin-top: var(--space-200);
 }
 .flow--md > * + * {
-  margin-top: var(--space-400);
+  margin-top: var(--space-500);
 }
 .flow--lg > * + * {
   margin-top: var(--space-700);
@@ -530,9 +530,21 @@ tfoot td {
   opacity: 1;
 }
 .checkbox-card__icon {
-  height: 5rem;
-  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  --size: 60px;
+  width: var(--size);
+  height: var(--size);
+
+  svg {
+    color: var(--fg);
+    width: 100%;
+    height: auto;
+  }
 }
+
 .checkbox-card--active .checkbox-card__icon {
   color: var(--clr-primary-400);
 }
