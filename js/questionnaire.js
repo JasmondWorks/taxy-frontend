@@ -698,6 +698,30 @@ let questions = [
 ];
 let currentQuestionIndex = 0;
 
+// Load persisted questions state if available
+const savedQuestions = localStorage.getItem("questionsState");
+if (savedQuestions) {
+  try {
+    questions = JSON.parse(savedQuestions);
+  } catch (e) {
+    console.error("Failed to parse saved questions state", e);
+  }
+}
+
+// Check for view=results param to restore state correctly
+const urlParams = new URL(window.location.href).searchParams;
+if (urlParams.get("view") === "results") {
+  // If viewing results, we assume we are at the end (index 3 for 4 items where 3 is result placeholder)
+  // Ensure we have tax results before jumping there, otherwise fallback to 0
+  if (localStorage.getItem("calculatedTax")) {
+    currentQuestionIndex = 3;
+  }
+}
+
+function saveQuestionsState() {
+  localStorage.setItem("questionsState", JSON.stringify(questions));
+}
+
 document.addEventListener("DOMContentLoaded", renderQuestion);
 
 questionsContainer.addEventListener("click", (e) => {
@@ -712,6 +736,7 @@ questionsContainer.addEventListener("click", (e) => {
 
     // Select the clicked option
     currentQuestion.options[optionIndex].isSelected = true;
+    saveQuestionsState();
 
     renderQuestion();
   }
@@ -1348,17 +1373,10 @@ function renderQuestion() {
 
   const taxResults = JSON.parse(localStorage.getItem("calculatedTax"));
 
-  if (taxResults) {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get("view") === "results") {
-      const taxResultsHtml = renderTaxResults(taxResults);
-      questionsContainer.innerHTML = taxResultsHtml;
-      // Re-attach listeners for the new buttons in the results page
-      return;
-    }
-  }
-
-  if (currentQuestionIndex === questions.length - 1) {
+  // Only force results if we are at the end (index 3) AND have results.
+  // Or if the URL explicitly asks for it (handled by initial index set to 3).
+  // If user clicked "Previous" from results, currentQuestionIndex will be 2, so we show Q3.
+  if (taxResults && currentQuestionIndex >= 3) {
     const taxResultsHtml = renderTaxResults(taxResults);
     questionsContainer.innerHTML = taxResultsHtml;
     // Re-attach listeners for the new buttons in the results page
@@ -1996,6 +2014,7 @@ function submitFormQuestion() {
   currentQuestion.lifeInsurancePremium = parseCurrency(lifeInsurancePremium);
   currentQuestion.annualRent = parseCurrency(annualRent);
 
+  saveQuestionsState();
   const calculatedTax = calculateTax(currentQuestion);
 
   localStorage.setItem("calculatedTax", JSON.stringify(calculatedTax));
@@ -2006,6 +2025,8 @@ function submitFormQuestion() {
 
 function resetQuestionnaire() {
   localStorage.clear();
+  // Clear questions state specifically since we persist it now
+  localStorage.removeItem("questionsState");
 
   questions = questions.map((q, index) => {
     if (index <= 1) {
