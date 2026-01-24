@@ -28,9 +28,13 @@ export const checkboxHtmlString = ({
             }
           </div>
           <div class="buttons-container">
-            <button type="button" class="btn btn--outline previous-button">
-              <i class="ri-arrow-left-long-line"></i> Previous
-            </button>
+            ${
+              currentQuestionIndex >= 1
+                ? `<button type="button" class="btn btn--outline previous-button">
+              <i class="ri-arrow-left-long-line"></i> Back
+            </button>`
+                : ""
+            }
             <button type="button" class="btn btn--primary btn--wide submit-button">
               Next <i class="ri-arrow-right-long-line"></i>
             </button>

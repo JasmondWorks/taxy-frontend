@@ -46,7 +46,7 @@ export const taxExemptionHtmlString = ({
               </div>
               <div class="buttons-container">
                 <button type="button" class="btn btn--outline previous-button">
-                  <i class="ri-arrow-left-long-line"></i> Previous
+                  <i class="ri-arrow-left-long-line"></i> Back
                 </button>
                 <button onclick="goToPage('next-steps-Lessthan800k.html')" type="button" class="btn btn--primary btn--wide">
                   Next steps <i class="ri-arrow-right-long-line"></i>
