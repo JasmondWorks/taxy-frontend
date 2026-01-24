@@ -1,7 +1,23 @@
 import { coloredCardString } from "./colored-card.js";
+import { dropdownHtmlString } from "./dropdown.js";
 
-export const formsHtmlString = () => `
-      <div class="container--narrow">
+export const formsHtmlString = ({
+  grossAnnualIncome,
+  nhfContribution,
+  nhisContribution,
+  pensionContribution,
+  interestOnLoan,
+  lifeInsurancePremium,
+  annualRent,
+} = {}) => {
+  // Helper to safely format value for input (e.g. avoid 'undefined', maybe show '' or value)
+  const safeVal = (val) => {
+    if (val === undefined || val === null || val === 0) return "";
+    return Number(val).toLocaleString("en-US");
+  };
+
+  return `
+      <div class="">
         <div class="steps__content" data-target="step-3">
           <div class="flow">
             <p class="text-muted"><small>QUESTION 3 OF 4</small></p>
@@ -40,10 +56,12 @@ export const formsHtmlString = () => `
                         <div class="input-wrapper">
                           <input
                             required
-                            type="number"
-                            min="0"
+                            type="text"
+                            inputmode="decimal"
+                            class="currency-input"
                             id="gross-annual-income"
                             placeholder="0.00"
+                            value="${safeVal(grossAnnualIncome)}"
                           />
                         </div>
                       </div>
@@ -61,24 +79,25 @@ export const formsHtmlString = () => `
                           <label for="nhf-contribution"
                             >NHF Contribution (Annual)
                           </label>
-                          <div class="dropdown">
-                            <button class="dropdown__trigger" type="button">
-                              <i class="ri-information-line text-muted"></i>
-                            </button>
-                            <div class="dropdown__content">
+                          ${dropdownHtmlString({
+                            contentHtmlString: `
+                            <p>
                               Lorem ipsum dolor sit amet consectetur adipisicing
                               elit. Non illum possimus doloremque blanditiis
                               minus velit repellendus illo culpa, delectus
                               consequatur!
-                            </div>
-                          </div>
+                            </p>
+                            `,
+                          })}
                         </div>
                         <div class="input-wrapper">
                           <input
-                            type="number"
-                            min="0"
+                            type="text"
+                            inputmode="decimal"
+                            class="currency-input"
                             id="nhf-contribution"
                             placeholder="0.00"
+                            value="${safeVal(nhfContribution)}"
                           />
                         </div>
                       </div>
@@ -87,24 +106,25 @@ export const formsHtmlString = () => `
                           <label for="nhis-contribution"
                             >NHIS Contribution (Annual)
                           </label>
-                          <div class="dropdown">
-                            <button class="dropdown__trigger" type="button">
-                              <i class="ri-information-line text-muted"></i>
-                            </button>
-                            <div class="dropdown__content">
+                          ${dropdownHtmlString({
+                            contentHtmlString: `
+                            <p>
                               Lorem ipsum dolor sit amet consectetur adipisicing
                               elit. Non illum possimus doloremque blanditiis
                               minus velit repellendus illo culpa, delectus
                               consequatur!
-                            </div>
-                          </div>
+                            </p>
+                            `,
+                          })}
                         </div>
                         <div class="input-wrapper">
                           <input
-                            type="number"
-                            min="0"
+                            type="text"
+                            inputmode="decimal"
+                            class="currency-input"
                             id="nhis-contribution"
                             placeholder="0.00"
+                            value="${safeVal(nhisContribution)}"
                           />
                         </div>
                       </div>
@@ -113,24 +133,25 @@ export const formsHtmlString = () => `
                           <label for="pension-contribution"
                             >Pension Contribution (Annual)
                           </label>
-                          <div class="dropdown">
-                            <button class="dropdown__trigger" type="button">
-                              <i class="ri-information-line text-muted"></i>
-                            </button>
-                            <div class="dropdown__content">
+                          ${dropdownHtmlString({
+                            contentHtmlString: `
+                            <p>
                               Lorem ipsum dolor sit amet consectetur adipisicing
                               elit. Non illum possimus doloremque blanditiis
                               minus velit repellendus illo culpa, delectus
                               consequatur!
-                            </div>
-                          </div>
+                            </p>
+                            `,
+                          })}
                         </div>
                         <div class="input-wrapper">
                           <input
-                            type="number"
-                            min="0"
+                            type="text"
+                            inputmode="decimal"
+                            class="currency-input"
                             id="pension-contribution"
                             placeholder="0.00"
+                            value="${safeVal(pensionContribution)}"
                           />
                         </div>
                       </div>
@@ -139,24 +160,25 @@ export const formsHtmlString = () => `
                           <label for="interest-on-loan"
                             >Interest on Loan
                           </label>
-                          <div class="dropdown">
-                            <button class="dropdown__trigger" type="button">
-                              <i class="ri-information-line text-muted"></i>
-                            </button>
-                            <div class="dropdown__content">
+                          ${dropdownHtmlString({
+                            contentHtmlString: `
+                            <p>
                               Lorem ipsum dolor sit amet consectetur adipisicing
                               elit. Non illum possimus doloremque blanditiis
                               minus velit repellendus illo culpa, delectus
                               consequatur!
-                            </div>
-                          </div>
+                            </p>
+                            `,
+                          })}
                         </div>
                         <div class="input-wrapper">
                           <input
-                            type="number"
-                            min="0"
+                            type="text"
+                            inputmode="decimal"
+                            class="currency-input"
                             id="interest-on-loan"
                             placeholder="0.00"
+                            value="${safeVal(interestOnLoan)}"
                           />
                         </div>
                       </div>
@@ -165,24 +187,25 @@ export const formsHtmlString = () => `
                           <label for="life-insurance-premium"
                             >Life Insurance Premium (You & Spouse)
                           </label>
-                          <div class="dropdown">
-                            <button class="dropdown__trigger" type="button">
-                              <i class="ri-information-line text-muted"></i>
-                            </button>
-                            <div class="dropdown__content">
+                          ${dropdownHtmlString({
+                            contentHtmlString: `
+                            <p>
                               Lorem ipsum dolor sit amet consectetur adipisicing
                               elit. Non illum possimus doloremque blanditiis
                               minus velit repellendus illo culpa, delectus
                               consequatur!
-                            </div>
-                          </div>
+                            </p>
+                            `,
+                          })}
                         </div>
                         <div class="input-wrapper">
                           <input
-                            type="number"
-                            min="0"
+                            type="text"
+                            inputmode="decimal"
+                            class="currency-input"
                             id="life-insurance-premium"
                             placeholder="0.00"
+                            value="${safeVal(lifeInsurancePremium)}"
                           />
                         </div>
                       </div>
@@ -191,24 +214,25 @@ export const formsHtmlString = () => `
                           <label for="annual-rent"
                             >Annual Rent
                           </label>
-                          <div class="dropdown">
-                            <button class="dropdown__trigger" type="button">
-                              <i class="ri-information-line text-muted"></i>
-                            </button>
-                            <div class="dropdown__content">
+                          ${dropdownHtmlString({
+                            contentHtmlString: `
+                            <p>
                               Lorem ipsum dolor sit amet consectetur adipisicing
                               elit. Non illum possimus doloremque blanditiis
                               minus velit repellendus illo culpa, delectus
                               consequatur!
-                            </div>
-                          </div>
+                            </p>
+                            `,
+                          })}
                         </div>
                         <div class="input-wrapper">
                           <input
-                            type="number"
-                            min="0"
+                            type="text"
+                            inputmode="decimal"
+                            class="currency-input"
                             id="annual-rent"
                             placeholder="0.00"
+                            value="${safeVal(annualRent)}"
                           />
                         </div>
                       </div>
@@ -240,3 +264,4 @@ export const formsHtmlString = () => `
           </div>
         </div>
       </div>`;
+};

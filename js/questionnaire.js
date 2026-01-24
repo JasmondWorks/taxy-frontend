@@ -326,12 +326,32 @@ function renderQuestion() {
   });
 
   const formsHtml = formsHtmlString({
-    question,
+    ...question,
     currentQuestionIndex,
     questions,
   });
 
   questionsContainer.innerHTML = question.options ? checkboxHtml : formsHtml;
+  if (!question.options) {
+    const inputs = questionsContainer.querySelectorAll(".currency-input");
+    inputs.forEach((input) => {
+      input.addEventListener("input", (e) => {
+        // Remove existing commas and non-numeric chars (allow one dot?)
+        // For simplicity, let's assume integers or standard float handling
+        let value = e.target.value.replace(/[^0-9.]/g, "");
+        if (value) {
+          // Check if it ends with a dot
+          if (value.indexOf(".") !== -1) {
+            const parts = value.split(".");
+            parts[0] = Number(parts[0]).toLocaleString("en-US");
+            e.target.value = parts.join(".");
+          } else {
+            e.target.value = Number(value).toLocaleString("en-US");
+          }
+        }
+      });
+    });
+  }
 }
 function submitCheckboxQuestion() {
   console.log("index", currentQuestionIndex);
@@ -402,6 +422,8 @@ function submitFormQuestion() {
 
   saveQuestionsState();
   const calculatedTax = calculateTax(currentQuestion);
+
+  console.log(calculatedTax);
 
   localStorage.setItem(
     "calculatedTax",
@@ -507,6 +529,7 @@ function calculateTax({
 
     totalTax.push({
       bracket: bracket.bracket,
+      rate: bracket.rate,
       taxableIncome: incomeInBracket,
       taxDue: taxDue,
     });
@@ -514,7 +537,7 @@ function calculateTax({
     taxableIncome -= incomeInBracket;
 
     // Stop if no more income to tax
-    if (taxableIncome <= 0) break;
+    // if (taxableIncome <= 0) break;
   }
 
   // Handle any remaining income above the defined brackets (Exceeding ~100m total defined limits)

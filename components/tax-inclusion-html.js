@@ -2,6 +2,8 @@ import { formatCurrency } from "../js/helpers.js";
 import { coloredCardString } from "./colored-card.js";
 import { whatChangedIcon } from "./icons/what-changed.js";
 import { yourTaxObligationIcon } from "./icons/your-tax-obligation.js";
+import { modalHtmlString } from "./modal.js";
+import { payeTableRateBreakdownHtmlString } from "./paye-table-rate-breakdown-html.js";
 
 export const taxInclusionHtmlString = ({ jobOccupation, calculatedTax }) => {
   return /* html */ `
@@ -59,6 +61,15 @@ export const taxInclusionHtmlString = ({ jobOccupation, calculatedTax }) => {
             </ul>
           `,
           variant: "green",
+        })}
+      </div>
+      <div style="margin-top: var(--space-500); margin-inline: auto;">
+        <button class="btn btn--outline modal-trigger" data-target="#tax-inclusion-modal">View breakdown</button>
+        ${modalHtmlString({
+          id: "tax-inclusion-modal",
+          // title: "Tax Inclusion",
+          body: payeTableRateBreakdownHtmlString(calculatedTax),
+          footer: "",
         })}
       </div>
       <div class="buttons-container">
