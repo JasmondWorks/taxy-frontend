@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap'); 
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;700&display=swap');
 
 *{
     padding: 0;
@@ -12,14 +13,14 @@
     --secondary-text: #4B5563;
     --section-bg: #F3F4F6;
     --card-Borders: #8C92AC;
-    --success: #22C55E;
     --font-main: 'Plus Jakarta Sans', sans-serif;
     --works-section: rgba(128, 128, 128, 0.226);
     --black: #121212;
+    --text-grey: #4B5563;
 }
 body{
     font-family: var(--font-main);
-    color: var(--deep-text);
+    color: var(--text-grey);
     line-height: 1.5;
     background-color: var(--bg-white);
 }
@@ -105,23 +106,25 @@ nav ul li a:hover::after {
     align-items: center;
 }
 .hero-header{
-    width: 980px;
+    width: 900px;
     padding: 0 50px 0 70px
 }
 .hero-header h1{
+    font-family: 'DM Serif Display', serif;
     font-weight: 800;
     font-size: 2.9rem;
     color: var(--black);
     padding-bottom: 30px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-align: center;
 }
 .hero-header p{
     color: var(--black);
     font-weight: 500;
     margin: 0 60px 0 60px;
     font-size: 1.3rem;
-}
-.to-you{
-    margin-left: 160px;
+    text-align: center;
 }
 .tax{
     color: var(--primary-green);
@@ -211,16 +214,17 @@ nav ul li a:hover::after {
     gap: 60px;
 }
 .box{
-    border: 1px solid var(--card-Borders);
+    border: none;
+    background-color: #DCFCE7;
     height: 280px;
     width: 240px;
     border-radius: 12px;
     padding: 14px;
 }
 .box:hover{
-    border: 1px solid black;
+    border: 1px solid var(--primary-green);
     transform: scale(1.1);
-    box-shadow: 3px 4px 8px var(--card-Borders);
+
 }
 .box h3{
     padding-top: 10px;
@@ -244,13 +248,13 @@ nav ul li a:hover::after {
   justify-content: center;
 }
 .How-works{
-    margin: 100px auto;
+    margin: 140px auto;
 }
 .works-wrapper{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--section-bg);
+    background-color: #DCFCE7;
     flex-direction: column;
     padding: 60px;
 }
@@ -273,21 +277,21 @@ nav ul li a:hover::after {
 }
 .box-wrapper{
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 5em;
-    margin-top: 20px;
+    gap: 2em;
+    margin-top: 40px;
 }
 .box2{
     background-color: var(--bg-white);
-    border: 1px solid var(--card-Borders);
+    border: none;
     border-radius: 12px;
     padding:20px;
     height:300px;
-    width: 220px;
+    width: 260px;
 }
 .box2 h2{
-    color: var(--success);
+    color: var(--primary-green);
     font-size: 2.7rem;
     opacity: 0.5;
     font-weight: 700;
@@ -297,7 +301,7 @@ nav ul li a:hover::after {
     margin-top: 10px;
 }
 .last-content{
-    margin: 100px auto;
+    margin: 170px auto;
 }
 .last-wrapper{
     display: flex;
@@ -305,10 +309,10 @@ nav ul li a:hover::after {
     align-items: center;
     gap: 5em;
 }
-.emptybox{
-    background-color: var(--primary-green);
-    height: 300px;
+.emptybox img{
+    height: 600px;
     width: 500px;
+    object-fit: cover;
 }
 .whychoose{
     width: 600px;
@@ -338,7 +342,7 @@ nav ul li a:hover::after {
     padding: 20px;
     border-radius: 18px;
     border: 1px solid var(--primary-green);
-    margin: 50px auto;
+    margin: 30px 0 0 0;
 }
 .comments{
     display: flex;
@@ -352,7 +356,7 @@ nav ul li a:hover::after {
     color: 	#111827;
 }
 .redirect-section{
-    margin: 100px auto;
+    margin: 170px auto;
     width: 870px;
 }
 .conclusion-wrapper{
@@ -406,6 +410,59 @@ nav ul li a:hover::after {
     background-color: transparent !important;
     font-size: 24px;
 }
+.taxy-footer {
+    background-color: #0B0B0B;
+    color: #FFFFFF;
+    padding: 80px 10% 40px;
+    font-family: 'Inter', sans-serif;
+}
+.footer-top {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding-bottom: 60px;
+}
+.footer-col {
+    flex: 1;
+    min-width: 200px;
+}
+.footer-col h4 {
+    font-size: 18px;
+    margin-bottom: 25px;
+    color: #FFFFFF;
+}
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+}
+.footer-col ul li {
+    margin-bottom: 12px;
+}
+.footer-col a, .footer-col p {
+    color: #A0A0A0; 
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 1.6;
+}
+.footer-col a:hover {
+    color: #00CA8D; 
+}
+.footer-bottom {
+    border-top: 1px solid #333; 
+    padding-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #666;
+}
+.legal-links a {
+    color: #666;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
 @media (max-width:768px) {
     .nav-bar{
         justify-content: space-between;
@@ -498,6 +555,7 @@ nav ul li a:hover::after {
         width: auto;
         flex-wrap: nowrap;
         gap: 30px;
+        padding: 20px;
     }
     .button-container{
         margin-bottom: 30px;
@@ -510,7 +568,7 @@ nav ul li a:hover::after {
         gap: 20px;
     }
     .box{
-       width: 270px;
+       width: auto;
        height: 300px;
     }
     .How-works{
@@ -527,26 +585,28 @@ nav ul li a:hover::after {
         display: flex;
         flex-direction: column;
         gap: 28px;
+        padding: 20px;
     }
     .box2{
-        width: 270px;
+        width: auto;
     }
     .understand{
         margin-left: 0;
     }
     .last-content{
-        margin: 20px;
+        margin: 80px;
     }
     .last-wrapper{
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap:20px
+        gap:20px;
+        flex-direction: column;
     }
-    .emptybox{
-        width: 300px;
-        height:300px;
+    .emptybox img{
+        height: 200px;
+        width: 400px;
     }
     .whychoose{
         text-align: center;
@@ -559,17 +619,16 @@ nav ul li a:hover::after {
     }
     .choose_features{
         display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        flex-wrap: nowrap;
     }
     .choose{
         padding: 10px;
+        display: flex;
+        align-items: center;
     }
     .redirect-section{
-        margin: 50px 20px 20px 20px;
+        margin: 50px 20px 90px 20px;
         width: auto;
+        
     }
     .conclusion-wrapper{
         padding: 20px;

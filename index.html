@@ -9,13 +9,13 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
-    <link rel="stylesheet" href="css/landing.css" />
-    <title>Taxy: Home</title>
+    <link rel="stylesheet" href="./css/landing.css" />
+    <title>Taxy</title>
   </head>
   <body>
     <header class="nav-header">
       <div class="nav-bar">
-        <a href="#" class="brand">Taxy</a>
+        <img src="./assets/images/logo.png" alt="Taxy logo" />
         <button class="menu-toggle" id="mobile-menu">
           <span class="material-symbols-outlined menu">menu</span>
         </button>
@@ -26,7 +26,7 @@
             <li><a href="#last-wrapper" class="list-item">Benefits</a></li>
           </ul>
         </nav>
-        <a href="questionnaire.html" class="started">Get started</a>
+        <a href="" class="started">Get started</a>
       </div>
     </header>
 
@@ -46,10 +46,7 @@
         </div>
 
         <div class="button-container">
-          <button class="started2" onclick="goToPage('questionnaire.html')">
-            Get Started
-          </button>
-          <button class="Learn">Learn More</button>
+          <button class="started2">Get Started</button>
         </div>
 
         <div class="features">
@@ -205,7 +202,9 @@
 
       <section class="last-content" id="last-content">
         <div class="last-wrapper" id="last-wrapper">
-          <div class="emptybox"></div>
+          <div class="emptybox">
+            <img src="./assets/images/pic1.png" alt="pic1" />
+          </div>
           <div class="whychoose">
             <h2>Why choose Taxy?</h2>
             <p>
@@ -213,7 +212,6 @@
               thousands of Nigerians Navigate complex tax regulations with
               Confidence and peace of mind.
             </p>
-
             <div class="choose_features">
               <div class="choose">
                 <span class="material-symbols-outlined success-tick">
@@ -246,16 +244,15 @@
                 <p>Protect your financial well-being</p>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div class="reviews">
-          <div class="comments">
-            <p>
-              "Taxy made understanding the 2026 reforms so much easier. I now
-              know exactly what am to do and when."
-            </p>
-            <span> --Chidinma O., Small Business Owner, Lagos </span>
+            <div class="reviews">
+              <div class="comments">
+                <p>
+                  "Taxy made understanding the 2026 reforms so much easier. I
+                  now know exactly what am to do and when."
+                </p>
+                <span> --Chidinma O., Small Business Owner, Lagos </span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -269,7 +266,7 @@
             it's completely free
           </p>
 
-          <a href="questionnaire.html" class="Start-button">
+          <a href="#" class="Start-button">
             Start Your Free Assessment
             <span
               class="material-symbols-outlined"
@@ -303,6 +300,56 @@
       </section>
     </main>
 
+    <footer class="taxy-footer">
+      <div class="footer-top">
+        <div class="footer-col brand-col">
+          <div class="taxy-pill small">
+            <div class="logo-content">
+              <img src="./assets/images/logo.png" alt="logo pic" />
+            </div>
+          </div>
+          <p class="footer-bio">
+            Empowering Nigerians with clarity and confidence in their tax
+            obligations.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">How it works</a></li>
+            <li><a href="#">Benefits</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">How it works</a></li>
+            <li><a href="#">Benefits</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact Us</h4>
+          <p>support@taxy.com</p>
+          <p>+234 800 TAX HELP</p>
+          <p>Lagos, Nigeria</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Taxy. All rights reserved.</p>
+        <div class="legal-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookie Settings</a>
+        </div>
+      </div>
+    </footer>
+
     <script>
       const header = document.querySelector("header");
       const menuToggle = document.getElementById("mobile-menu");
@@ -319,10 +366,6 @@
       menuToggle.addEventListener("click", () => {
         navMenu.classList.toggle("active");
       });
-
-      function goToPage(url) {
-        window.location.href = url;
-      }
     </script>
   </body>
 </html>
