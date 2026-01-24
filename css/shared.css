@@ -404,6 +404,11 @@ tfoot td {
   transform: translateY(calc(-100% - 5px));
 }
 
+.dropdown--right .dropdown__content {
+  left: auto;
+  right: 0;
+}
+
 .tabs__buttons {
   display: flex;
   padding: var(--space-150);

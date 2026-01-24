@@ -46,10 +46,7 @@ export const formsHtmlString = ({
                               <i class="ri-information-line text-muted"></i>
                             </button>
                             <div class="dropdown__content">
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit. Non illum possimus doloremque blanditiis
-                              minus velit repellendus illo culpa, delectus
-                              consequatur!
+                              The total yearly income you receive from all sources, including salary, bonuses, and allowances.
                             </div>
                           </div>
                         </div>
@@ -82,10 +79,7 @@ export const formsHtmlString = ({
                           ${dropdownHtmlString({
                             contentHtmlString: `
                             <p>
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit. Non illum possimus doloremque blanditiis
-                              minus velit repellendus illo culpa, delectus
-                              consequatur!
+                              National Housing Fund. A mandatory contribution of 2.5% of your basic monthly salary towards housing development.
                             </p>
                             `,
                           })}
@@ -109,10 +103,7 @@ export const formsHtmlString = ({
                           ${dropdownHtmlString({
                             contentHtmlString: `
                             <p>
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit. Non illum possimus doloremque blanditiis
-                              minus velit repellendus illo culpa, delectus
-                              consequatur!
+                              National Health Insurance Scheme. Contributions made towards your health insurance coverage.
                             </p>
                             `,
                           })}
@@ -136,10 +127,7 @@ export const formsHtmlString = ({
                           ${dropdownHtmlString({
                             contentHtmlString: `
                             <p>
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit. Non illum possimus doloremque blanditiis
-                              minus velit repellendus illo culpa, delectus
-                              consequatur!
+                              Contributory Pension Scheme. Usually 8% of your monthly emoluments (Basic + Housing + Transport).
                             </p>
                             `,
                           })}
@@ -163,10 +151,7 @@ export const formsHtmlString = ({
                           ${dropdownHtmlString({
                             contentHtmlString: `
                             <p>
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit. Non illum possimus doloremque blanditiis
-                              minus velit repellendus illo culpa, delectus
-                              consequatur!
+                              Interest paid on loans used for developing an owner-occupied residential house.
                             </p>
                             `,
                           })}
@@ -190,10 +175,7 @@ export const formsHtmlString = ({
                           ${dropdownHtmlString({
                             contentHtmlString: `
                             <p>
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit. Non illum possimus doloremque blanditiis
-                              minus velit repellendus illo culpa, delectus
-                              consequatur!
+                              Premiums paid on life insurance policies for yourself and your spouse.
                             </p>
                             `,
                           })}
@@ -217,10 +199,7 @@ export const formsHtmlString = ({
                           ${dropdownHtmlString({
                             contentHtmlString: `
                             <p>
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit. Non illum possimus doloremque blanditiis
-                              minus velit repellendus illo culpa, delectus
-                              consequatur!
+                              The annual rent paid for your accommodation. This may qualify for tax relief.
                             </p>
                             `,
                           })}
