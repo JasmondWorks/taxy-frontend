@@ -10,6 +10,7 @@ document.addEventListener("click", (e) => {
       if (d !== dropdown) {
         d.classList.remove("dropdown--active");
         d.classList.remove("dropdown--up");
+        d.classList.remove("dropdown--right");
       }
     });
 
@@ -19,6 +20,7 @@ document.addEventListener("click", (e) => {
     } else {
       // Calculate position before showing
       dropdown.classList.remove("dropdown--up");
+      dropdown.classList.remove("dropdown--right");
 
       const rect = dropdownTrigger.getBoundingClientRect();
       // Content is in DOM but hidden with opacity.
@@ -31,6 +33,21 @@ document.addEventListener("click", (e) => {
         dropdown.classList.add("dropdown--up");
       }
 
+      // Horizontal check
+      const dropdownRect = dropdown.getBoundingClientRect();
+      const contentWidth = content.offsetWidth;
+
+      // Check if content goes off-screen to the right
+      // We check actual width AND a heuristic based on max-width (300px)
+      // If the trigger is within 300px of the right edge, we flip it to be safe.
+      if (
+        (contentWidth > 0 &&
+          dropdownRect.left + contentWidth > window.innerWidth - 20) ||
+        dropdownRect.left > window.innerWidth - 320
+      ) {
+        dropdown.classList.add("dropdown--right");
+      }
+
       dropdown.classList.add("dropdown--active");
     }
     e.stopPropagation();
@@ -41,6 +58,7 @@ document.addEventListener("click", (e) => {
     document.querySelectorAll(".dropdown--active").forEach((d) => {
       d.classList.remove("dropdown--active");
       d.classList.remove("dropdown--up");
+      d.classList.remove("dropdown--right");
     });
   }
 
@@ -86,6 +104,7 @@ window.addEventListener(
     document.querySelectorAll(".dropdown--active").forEach((d) => {
       d.classList.remove("dropdown--active");
       d.classList.remove("dropdown--up");
+      d.classList.remove("dropdown--right");
     });
   },
   { passive: true },
