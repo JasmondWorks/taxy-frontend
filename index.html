@@ -26,7 +26,7 @@
             <li><a href="#last-wrapper" class="list-item">Benefits</a></li>
           </ul>
         </nav>
-        <a href="" class="started">Get started</a>
+        <a href="questionnaire.html" class="started">Get started</a>
       </div>
     </header>
 
@@ -46,7 +46,7 @@
         </div>
 
         <div class="button-container">
-          <button class="started2">Get Started</button>
+          <a href="questionnaire.html" class="started">Get started</a>
         </div>
 
         <div class="features">
@@ -266,7 +266,7 @@
             it's completely free
           </p>
 
-          <a href="#" class="Start-button">
+          <a href="questionnaire.html" class="Start-button">
             Start Your Free Assessment
             <span
               class="material-symbols-outlined"
@@ -366,6 +366,10 @@
       menuToggle.addEventListener("click", () => {
         navMenu.classList.toggle("active");
       });
+
+      function goToPage(url) {
+        window.location.href = url;
+      }
     </script>
   </body>
 </html>

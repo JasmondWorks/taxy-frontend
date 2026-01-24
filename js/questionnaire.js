@@ -131,7 +131,10 @@ function saveQuestionsState() {
   );
 }
 
-document.addEventListener("DOMContentLoaded", renderQuestion);
+document.addEventListener("DOMContentLoaded", () => {
+  localStorage.clear();
+  renderQuestion();
+});
 
 questionsContainer.addEventListener("click", (e) => {
   //   Toggle option
