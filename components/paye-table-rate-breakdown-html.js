@@ -37,10 +37,10 @@ export const payeTableRateBreakdownHtmlString = (calculatedTax) => {
     <div class="paye-tax-breakdown-container">
       <h3 class="text-center title">PAYE tax bracket breakdown</h3>
       <div class="tabs">
-        <div class="tabs__buttons">
+        <!--<div class="tabs__buttons">
           <button class="tab-button tab-button--active">Old Law</button>
           <button class="tab-button">New Law</button>
-        </div>
+        </div>-->
         <div class="tabs__content-container">
           <div class="table-container">
             <table>

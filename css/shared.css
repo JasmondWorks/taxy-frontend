@@ -52,6 +52,8 @@ html {
   --clr-green-200: #d7f4d5;
   --clr-green-400: #4bb543;
 
+  --clr-blue-100: #e5f2ff;
+  --clr-blue-200: #c3e6ff;
   --clr-blue-400: #193cb8;
 
   --clr-error-fg: var(--clr-orange-900);
@@ -227,25 +229,29 @@ input[type="text"],
 input[type="email"],
 input[type="number"],
 input[type="date"],
-textarea {
+textarea,
+select {
   padding: var(--space-200);
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-color-neutral);
   outline: none;
   font-size: 1.6rem;
+  width: 100%;
 }
 
 input[type="text"],
 input[type="email"],
 input[type="number"],
 input[type="date"],
-textarea {
+textarea,
+select {
   &::placeholder {
     color: var(--clr-neutral-500);
   }
 }
 
-label {
+label,
+.label {
   line-height: 1.3;
   /* white-space: nowrap; */
 }
@@ -272,15 +278,23 @@ label {
   line-height: 1;
 }
 
-.naira-input-field label {
+.naira-input-field label,
+label {
   font-size: var(--font-size-sm-200);
   display: flex;
   gap: var(--space-100);
   position: relative;
+  align-items: center;
 }
 .naira-input-field .input-wrapper {
   position: relative;
   display: flex;
+  align-items: center;
+}
+
+.input-wrapper {
+  display: flex;
+  gap: var(--space-400);
   align-items: center;
 }
 
@@ -301,7 +315,8 @@ input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="number"]:focus,
 input[type="date"]:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
   border-color: var(--clr-primary-400);
 }
 .table-container {

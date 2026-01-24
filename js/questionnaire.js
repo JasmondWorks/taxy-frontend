@@ -3,6 +3,8 @@ import { taxExemptionHtmlString } from "../components/below-800k-exemption-html.
 import { checkboxHtmlString } from "../components/checkbox-html.js";
 import { exemptionBusinessOwnerHtmlString } from "../components/exemption-business-owner-html.js";
 import { formsHtmlString } from "../components/forms-html.js";
+import { businessFormsHtmlString } from "../components/business-forms-html.js";
+import { businessTaxResultHtmlString } from "../components/business-tax-result-html.js";
 import { aboutTaxRuleIcon } from "../components/icons/about-tax-rule.js";
 import { businessOwnerIcon } from "../components/icons/business-owner-icon.js";
 import { corporateWorkerIcon } from "../components/icons/corporate-worker-icon.js";
@@ -97,6 +99,16 @@ let questions = [
     interestOnLoan: 0,
     lifeInsurancePremium: 0,
     annualRent: 0,
+
+    // Businesses Fields
+    // Required fields
+    isMultiNational: false,
+    sellsVatSellableGoods: false,
+    businessType: "",
+
+    // Optional fields
+    fixedAssets: 0,
+    profit: 0,
   },
   { id: 4 },
 ];
@@ -171,20 +183,13 @@ questionsContainer.addEventListener("click", (e) => {
 
   if (e.target.classList.contains("submit-button")) {
     e.preventDefault();
-  }
 
-  if (
-    e.target.classList.contains("submit-button") &&
-    questions[currentQuestionIndex].options
-  ) {
-    submitCheckboxQuestion();
-  }
-
-  if (
-    e.target.classList.contains("submit-button") &&
-    !questions[currentQuestionIndex].options
-  ) {
-    submitFormQuestion();
+    if (questions[currentQuestionIndex].options) {
+      submitCheckboxQuestion();
+    } else {
+      submitFormQuestion();
+    }
+    return;
   }
 
   if (
@@ -213,6 +218,53 @@ questionsContainer.addEventListener("click", (e) => {
   }
 });
 
+// Listener for form persistence (Input/Change)
+questionsContainer.addEventListener("change", (e) => {
+  // Only applicable for form questions (no options)
+  const currentQuestion = questions[currentQuestionIndex];
+  if (!currentQuestion || currentQuestion.options) return;
+
+  const target = e.target;
+  let key = "";
+  let value = target.value;
+
+  // Helper to convert kebab-case to camelCase
+  const toCamelCase = (str) =>
+    str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+
+  // Handle Currency Inputs
+  if (target.classList.contains("currency-input")) {
+    key = toCamelCase(target.id);
+    value = parseFloat(target.value.replace(/,/g, "")) || 0;
+  }
+  // Handle Radios
+  else if (target.type === "radio") {
+    if (target.name === "sells-vat-goods") {
+      key = "sellsVatSellableGoods";
+      value = target.value === "true";
+    } else if (target.name === "multi-national") {
+      key = "isMultiNational";
+      value = target.value === "true";
+    } else if (target.name === "vats-status") {
+      // Fallback for potentially older name/id in some versions, though we set sells-vat-goods
+      key = "sellsVatSellableGoods";
+      value = target.value === "true";
+    }
+  }
+  // Handle Selects
+  else if (target.tagName === "SELECT") {
+    key = toCamelCase(target.id || target.name);
+  } else {
+    // Generic fallback
+    key = toCamelCase(target.id);
+  }
+
+  if (key) {
+    currentQuestion[key] = value;
+    saveQuestionsState();
+  }
+});
+
 function renderTaxResults(calculatedTax) {
   let savedState = {};
   try {
@@ -221,14 +273,19 @@ function renderTaxResults(calculatedTax) {
     console.error("Failed to parse questions state", e);
   }
 
+  /* 
+    Logic identifier requires the array of titles, which we get from the selected option
+    We prioritize the current 'questions' state which should be loaded
+  */
+
+  if (calculatedTax.isBusiness) {
+    return businessTaxResultHtmlString({ calculatedTax });
+  }
+
   // Fallback to current state if localStorage is empty or corrupt
   const jobTitles = questions[1].options.find((opt) => opt.isSelected === true);
 
-  // Use saved jobOccupation or fallback to generating it
   let jobOccupation = savedState.jobOccupation || getJobOccupation();
-
-  // Logic identifier requires the array of titles, which we get from the selected option
-  // We prioritize the current 'questions' state which should be loaded
   let jobOccupationTitle = getJobOccupationTitle(jobTitles?.titles || []);
 
   function getJobOccupationTitle(titles) {
@@ -236,6 +293,8 @@ function renderTaxResults(calculatedTax) {
     if (lowerTitles.includes("salary-earner")) {
       return "salary-earner";
     } else if (lowerTitles.includes("business owner")) {
+      // Should ideally be caught by isBusiness check above but keeping for safety
+      // If logic allows hybrid or legacy state
       return "business-owner";
     } else if (lowerTitles.includes("self-employed")) {
       return "self-employed";
@@ -249,31 +308,15 @@ function renderTaxResults(calculatedTax) {
     calculatedTax,
   });
 
-  const exemptionBusinessOwnerHtml = exemptionBusinessOwnerHtmlString({
-    jobOccupation,
-    calculatedTax,
-    formatCurrency,
-  });
-
   const exemptionBelow800kHtml = taxExemptionHtmlString({
     jobOccupation,
     calculatedTax,
     formatCurrency,
   });
 
-  console.log(jobOccupationTitle, calculatedTax.grossAnnualIncome);
-  if (jobOccupationTitle === "business-owner") {
-    return calculatedTax.grossAnnualIncome < 800000
-      ? exemptionBusinessOwnerHtml
-      : inclusionHtml;
-  } else if (
-    jobOccupationTitle === "salary-earner" ||
-    jobOccupationTitle === "self-employed"
-  ) {
-    return calculatedTax.grossAnnualIncome < 800000
-      ? exemptionBelow800kHtml
-      : inclusionHtml;
-  }
+  return calculatedTax.grossAnnualIncome < 800000
+    ? exemptionBelow800kHtml
+    : inclusionHtml;
 }
 
 function renderStepsIndicator(currentQuestionIndex) {
@@ -319,13 +362,22 @@ function renderQuestion() {
 
   const question = questions[currentQuestionIndex];
 
+  // Determine if Business Owner (Question 2, index 1, option index 1 typically)
+  // Logic: Check if "Business Owner" option is selected in Question 2
+  const isBusinessOwner = questions[1].options[1].isSelected;
+
   const checkboxHtml = checkboxHtmlString({
     question,
     currentQuestionIndex,
     questions,
   });
 
-  const formsHtml = formsHtmlString({
+  let currentFormHtmlString = formsHtmlString;
+  if (isBusinessOwner) {
+    currentFormHtmlString = businessFormsHtmlString;
+  }
+
+  const formsHtml = currentFormHtmlString({
     ...question,
     currentQuestionIndex,
     questions,
@@ -371,6 +423,8 @@ function submitCheckboxQuestion() {
   }
 
   if (currentQuestionIndex < questions.length) {
+    // Clear previous results when moving forward from an options question (e.g. changing occupation)
+    localStorage.removeItem("calculatedTax");
     currentQuestionIndex++;
     renderQuestion();
   }
@@ -378,60 +432,119 @@ function submitCheckboxQuestion() {
 
 function submitFormQuestion() {
   const currentQuestion = questions[currentQuestionIndex];
+  const isBusinessOwner = questions[1].options[1].isSelected;
 
-  // Get values from inputs
-  const grossIncomeInput = document.getElementById("gross-annual-income");
-
-  if (!grossIncomeInput.value) {
-    // Trigger browser validation UI
-    const form = document.querySelector(".earning-forms");
-    if (form) form.reportValidity();
-    return;
-  }
-
-  const grossAnnualIncome = grossIncomeInput.value;
-  const nhfContribution = document.getElementById("nhf-contribution").value;
-  const nhisContribution = document.getElementById("nhis-contribution").value;
-  const pensionContribution = document.getElementById(
-    "pension-contribution",
-  ).value;
-  const interestOnLoan = document.getElementById("interest-on-loan").value;
-  const lifeInsurancePremium = document.getElementById(
-    "life-insurance-premium",
-  ).value;
-  const annualRent = document.getElementById("annual-rent").value;
-
-  // Basic validation (only gross income required for now based on UI)
-  //   if (!grossAnnualIncome) {
-  //     alert("Please enter your Gross Annual Income");
-  //     return;
-  //   }
-
-  // Update question object
-  // Parse inputs to numbers (removing commas if any, assuming simple numeric input for now)
-  // In a real app, strict parsing and format handling is needed.
+  // Common parsing helper
   const parseCurrency = (val) => parseFloat(val.replace(/,/g, "")) || 0;
 
-  currentQuestion.grossAnnualIncome = parseCurrency(grossAnnualIncome);
-  currentQuestion.nhfContribution = parseCurrency(nhfContribution);
-  currentQuestion.nhisContribution = parseCurrency(nhisContribution);
-  currentQuestion.pensionContribution = parseCurrency(pensionContribution);
-  currentQuestion.interestOnLoan = parseCurrency(interestOnLoan);
-  currentQuestion.lifeInsurancePremium = parseCurrency(lifeInsurancePremium);
-  currentQuestion.annualRent = parseCurrency(annualRent);
+  if (isBusinessOwner) {
+    const grossIncomeInput = document.getElementById("gross-annual-income");
+    const businessTypeInput = document.getElementById("business-type");
+    const vatGoodsInput = document.querySelector(
+      'input[name="sells-vat-goods"]:checked',
+    );
+    const multinationalInput = document.querySelector(
+      'input[name="multi-national"]:checked',
+    );
+    const fixedAssetsInput = document.getElementById("fixed-assets");
+    const profitInput = document.getElementById("profit");
 
-  saveQuestionsState();
-  const calculatedTax = calculateTax(currentQuestion);
+    // Validation
+    if (
+      !grossIncomeInput.value ||
+      !businessTypeInput.value ||
+      !vatGoodsInput ||
+      !multinationalInput
+    ) {
+      // Trigger validity report if possible or alert
+      const form = document.querySelector(".earning-forms");
+      if (form && form.reportValidity) {
+        form.reportValidity();
+      } else {
+        alert("Please fill all required fields");
+      }
+      return;
+    }
 
-  console.log(calculatedTax);
+    const grossAnnualIncome = parseCurrency(grossIncomeInput.value);
+    const businessType = businessTypeInput.value;
+    const sellsVatSellableGoods = vatGoodsInput.value === "true";
+    const isMultiNational = multinationalInput.value === "true";
+    const fixedAssets = parseCurrency(fixedAssetsInput.value);
+    const profit = parseCurrency(profitInput.value);
 
-  localStorage.setItem(
-    "calculatedTax",
-    JSON.stringify({ ...calculatedTax, jobOccupation: getJobOccupation() }),
-  );
-  // Proceed
-  currentQuestionIndex++;
-  renderQuestion();
+    // Update state
+    currentQuestion.grossAnnualIncome = grossAnnualIncome;
+    currentQuestion.businessType = businessType;
+    currentQuestion.sellsVatSellableGoods = sellsVatSellableGoods;
+    currentQuestion.isMultiNational = isMultiNational;
+    currentQuestion.fixedAssets = fixedAssets;
+    currentQuestion.profit = profit;
+
+    saveQuestionsState();
+
+    const calculatedTax = calculateBusinessTax({
+      grossAnnualIncome,
+      businessType,
+      sellsVatSellableGoods,
+      isMultiNational,
+      fixedAssets,
+      profit,
+    });
+
+    localStorage.setItem(
+      "calculatedTax",
+      JSON.stringify({ ...calculatedTax, jobOccupation: getJobOccupation() }),
+    );
+
+    // Proceed
+    currentQuestionIndex++;
+    renderQuestion();
+  } else {
+    // Individual Logic
+    // Get values from inputs
+    const grossIncomeInput = document.getElementById("gross-annual-income");
+
+    if (!grossIncomeInput.value) {
+      // Trigger browser validation UI
+      const form = document.querySelector(".earning-forms");
+      if (form) form.reportValidity();
+      return;
+    }
+
+    const grossAnnualIncome = grossIncomeInput.value;
+    const nhfContribution = document.getElementById("nhf-contribution").value;
+    const nhisContribution = document.getElementById("nhis-contribution").value;
+    const pensionContribution = document.getElementById(
+      "pension-contribution",
+    ).value;
+    const interestOnLoan = document.getElementById("interest-on-loan").value;
+    const lifeInsurancePremium = document.getElementById(
+      "life-insurance-premium",
+    ).value;
+    const annualRent = document.getElementById("annual-rent").value;
+
+    currentQuestion.grossAnnualIncome = parseCurrency(grossAnnualIncome);
+    currentQuestion.nhfContribution = parseCurrency(nhfContribution);
+    currentQuestion.nhisContribution = parseCurrency(nhisContribution);
+    currentQuestion.pensionContribution = parseCurrency(pensionContribution);
+    currentQuestion.interestOnLoan = parseCurrency(interestOnLoan);
+    currentQuestion.lifeInsurancePremium = parseCurrency(lifeInsurancePremium);
+    currentQuestion.annualRent = parseCurrency(annualRent);
+
+    saveQuestionsState();
+    const calculatedTax = calculateTax(currentQuestion);
+
+    console.log(calculatedTax);
+
+    localStorage.setItem(
+      "calculatedTax",
+      JSON.stringify({ ...calculatedTax, jobOccupation: getJobOccupation() }),
+    );
+    // Proceed
+    currentQuestionIndex++;
+    renderQuestion();
+  }
 }
 
 function resetQuestionnaire() {
@@ -575,6 +688,84 @@ function calculateTax({
     interestOnLoan,
     lifeInsurancePremium,
     annualRent,
+    // Add dummy values for business logic compatibility if needed
+    isBusiness: false,
+  };
+}
+
+function calculateBusinessTax({
+  grossAnnualIncome, // turnover
+  businessType,
+  sellsVatSellableGoods,
+  isMultiNational,
+  fixedAssets = 0,
+  profit = 0,
+}) {
+  let status = "TAXABLE";
+  const taxesApplicable = [];
+  const nextSteps = [];
+  let estimatedTax = "Profit required to estimate tax";
+
+  // Rules
+  // 1. Small Company Exemption (Turnover <= 100m AND Fixed Assets <= 250m AND Not Professional)
+  const isSmallCompany =
+    grossAnnualIncome <= 100000000 &&
+    fixedAssets <= 250000000 &&
+    businessType !== "professional";
+
+  // 2. Large Company (Turnover >= 50bn OR MultiNational)
+  const isLargeCompany = grossAnnualIncome >= 50000000000 || isMultiNational;
+
+  if (isLargeCompany) {
+    status = "LARGE COMPANY";
+    taxesApplicable.push("Minimum Effective Tax (15%)", "CIT", "Education Tax");
+    nextSteps.push(
+      "Consult a top-tier tax consultant",
+      "Prepare for MET calculation",
+    );
+  } else if (isSmallCompany) {
+    status = "EXEMPT";
+    // Exempt from CIT, Dev Levy, CGT
+    nextSteps.push(
+      "File annual returns via NRS Portal (Zero CIT)",
+      "Maintain financial records",
+    );
+  } else {
+    // TAXABLE (Medium/Large or Professional)
+    status = "TAXABLE";
+    taxesApplicable.push("Companies Income Tax (CIT)");
+    if (businessType === "professional") {
+      nextSteps.push("File CIT returns (Professional Service rule applies)");
+    } else {
+      nextSteps.push("File CIT returns");
+    }
+  }
+
+  // VAT Rule: Sells VATable goods AND Turnover >= 50m
+  if (sellsVatSellableGoods && grossAnnualIncome >= 50000000) {
+    taxesApplicable.push("VAT");
+    nextSteps.push("Register for VAT", "File monthly VAT returns");
+  }
+
+  // Calculate estimated Tax if profit provided and taxable
+  if (profit > 0 && status !== "EXEMPT") {
+    // Simple CIT estimation (approx 30% for now as standard, though distinct rates exist for medium companies)
+    // For this simplified logic:
+    estimatedTax = profit * 0.3;
+  } else if (status === "EXEMPT") {
+    estimatedTax = 0;
+  }
+
+  return {
+    isBusiness: true,
+    status,
+    taxesApplicable,
+    estimatedTax,
+    nextSteps,
+    grossAnnualIncome, // passing through for display
+    fixedAssets,
+    profit,
+    businessType,
   };
 }
 
