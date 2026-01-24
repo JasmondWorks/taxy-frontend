@@ -392,7 +392,7 @@ tfoot td {
 .tabs__buttons {
   display: flex;
   padding: var(--space-150);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   border: 1px solid var(--border-color-neutral);
   margin-bottom: var(--space-300);
 }
@@ -436,6 +436,15 @@ tfoot td {
 }
 .btn--wide {
   padding-inline: calc(var(--space-600) * 3);
+}
+
+.btn--link {
+  color: var(--clr-primary-400);
+  border-bottom: 2px solid var(--clr-primary-400);
+  padding-bottom: var(--space-100);
+  background-color: transparent;
+  border-radius: 0;
+  padding-inline: 0;
 }
 
 .btn--primary {

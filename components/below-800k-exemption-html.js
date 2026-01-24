@@ -1,5 +1,7 @@
 import { coloredCardString } from "./colored-card.js";
 import { taxObligationIcon } from "./icons/tax-obligation.js";
+import { modalHtmlString } from "./modal.js";
+import { payeTableRateBreakdownHtmlString } from "./paye-table-rate-breakdown-html.js";
 
 export const taxExemptionHtmlString = ({
   jobOccupation,
@@ -43,6 +45,15 @@ export const taxExemptionHtmlString = ({
                 `,
                 variant: "green",
               })}
+              </div>
+              <div style="margin-top: var(--space-500); margin-inline: auto;">
+                <button class="btn btn--outline modal-trigger" data-target="#tax-inclusion-modal">View breakdown</button>
+                ${modalHtmlString({
+                  id: "tax-inclusion-modal",
+                  // title: "Tax Inclusion",
+                  body: payeTableRateBreakdownHtmlString(calculatedTax),
+                  footer: "",
+                })}
               </div>
               <div class="buttons-container">
                 <button type="button" class="btn btn--outline previous-button">

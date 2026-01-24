@@ -181,6 +181,9 @@ body {
   /* padding: var(--space-400); */
   min-width: 0; /* Allows horizontal scroll in children (like tables) */
 }
+.paye-tax-breakdown-container .table-container + .table-container {
+  margin-top: var(--space-300);
+}
 .paye-tax-breakdown-container .title {
   margin-bottom: var(--space-400);
 }
