@@ -97,6 +97,16 @@ let questions = [
     interestOnLoan: 0,
     lifeInsurancePremium: 0,
     annualRent: 0,
+
+    // Businesses Fields
+    // Required fields
+    isMultiNational: false,
+    vatEnabled: false,
+    businessType: "",
+
+    // Optional fields
+    fixedAssets: 0,
+    profit: 0,
   },
   { id: 4 },
 ];

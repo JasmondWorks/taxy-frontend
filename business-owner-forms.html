@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="">
+      <div class="steps__content" data-target="step-3">
+        <div class="flow">
+          <p class="text-muted"><small>QUESTION 3 OF 4</small></p>
+          <h1 class="heading-primary">How much do you earn?</h1>
+          <p class="text-muted">
+            Select your annual income range to get personalized tax guidance
+          </p>
+        </div>
+        <div class="earning-layout-container">
+          <div>
+            <form class="earning-forms">
+              <div>
+                <p class="form-title">
+                  <small>BASIC INFORMATION</small>
+                </p>
+                <div class="form-container">
+                  <div class="basic-info-form">
+                    <div class="naira-input-field required">
+                      <div class="input-label-container">
+                        <label for="gross-income"
+                          >Gross annual income (₦)
+                        </label>
+                        <div class="dropdown">
+                          <button class="dropdown__trigger" type="button">
+                            <i class="ri-information-line text-muted"></i>
+                          </button>
+                          <div class="dropdown__content">
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Non illum possimus doloremque blanditiis minus
+                            velit repellendus illo culpa, delectus consequatur!
+                          </div>
+                        </div>
+                      </div>
+                      <div class="input-wrapper">
+                        <input
+                          required
+                          type="text"
+                          inputmode="decimal"
+                          class="currency-input"
+                          id="gross-annual-income"
+                          placeholder="0.00"
+                          value="${safeVal(grossAnnualIncome)}"
+                        />
+                      </div>
+                    </div>
+                    <div class="naira-input-field required">
+                      <div class="input-label-container">
+                        <label for="gross-income">Business type </label>
+                        <div class="dropdown">
+                          <button class="dropdown__trigger" type="button">
+                            <i class="ri-information-line text-muted"></i>
+                          </button>
+                          <div class="dropdown__content">
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Non illum possimus doloremque blanditiis minus
+                            velit repellendus illo culpa, delectus consequatur!
+                          </div>
+                        </div>
+                      </div>
+                      <div class="input-wrapper">
+                        <select
+                          required
+                          name="business-type"
+                          id="business-type"
+                        >
+                          <option value="">Select business type</option>
+                          <option value="normal">Normal</option>
+                          <option value="professional">Professional</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="naira-input-field required">
+                      <div class="input-label-container">
+                        <div>Is your business VAT registered?</div>
+                        <div class="dropdown">
+                          <button class="dropdown__trigger" type="button">
+                            <i class="ri-information-line text-muted"></i>
+                          </button>
+                          <div class="dropdown__content">
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Non illum possimus doloremque blanditiis minus
+                            velit repellendus illo culpa, delectus consequatur!
+                          </div>
+                        </div>
+                      </div>
+                      <div class="input-wrapper radio-inputs-wrapper">
+                        <label for="vats-status">
+                          <input
+                            required
+                            type="radio"
+                            name="vats-status"
+                            id="vats-status"
+                          />
+                          Yes
+                        </label>
+                        <label for="vats-status">
+                          <input
+                            required
+                            type="radio"
+                            name="vats-status"
+                            id="vats-status"
+                          />
+                          No
+                        </label>
+                      </div>
+                    </div>
+                    <div class="naira-input-field required">
+                      <div class="input-label-container">
+                        <div for="gross-income">
+                          Is your business multi-national?
+                        </div>
+                        <div class="dropdown">
+                          <button class="dropdown__trigger" type="button">
+                            <i class="ri-information-line text-muted"></i>
+                          </button>
+                          <div class="dropdown__content">
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Non illum possimus doloremque blanditiis minus
+                            velit repellendus illo culpa, delectus consequatur!
+                          </div>
+                        </div>
+                      </div>
+                      <div class="input-wrapper radio-inputs-wrapper">
+                        <label for="multi-national">
+                          <input
+                            required
+                            type="radio"
+                            name="multi-national"
+                            id="multi-national"
+                          />
+                          Yes
+                        </label>
+                        <label for="multi-national">
+                          <input
+                            required
+                            type="radio"
+                            name="multi-national"
+                            id="multi-national"
+                          />
+                          No
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <p class="form-title">
+                  <small>ADDITIONAL INFORMATION (OPTIONAL)</small>
+                </p>
+                <div class="form-container">
+                  <div class="additional-info-form">
+                    <div class="naira-input-field">
+                      <div class="input-label-container">
+                        <label for="fixed-assets">Fixed Assets (₦) </label>
+                        <div class="dropdown">
+                          <button class="dropdown__trigger" type="button">
+                            <i class="ri-information-line text-muted"></i>
+                          </button>
+                          <div class="dropdown__content">
+                            <p>
+                              Lorem ipsum dolor sit amet consectetur adipisicing
+                              elit. Non illum possimus doloremque blanditiis
+                              minus velit repellendus illo culpa, delectus
+                              consequatur!
+                            </p>
+                          </div>
+                        </div>
+                        `;
+                      </div>
+                      <div class="input-wrapper">
+                        <input
+                          type="text"
+                          inputmode="decimal"
+                          class="currency-input"
+                          id="fixed-assets"
+                          placeholder="0.00"
+                          value="${safeVal(fixedAssets)}"
+                        />
+                      </div>
+                    </div>
+                    <div class="naira-input-field">
+                      <div class="input-label-container">
+                        <label for="profit">Profit </label>
+                        <div class="dropdown">
+                          <button class="dropdown__trigger" type="button">
+                            <i class="ri-information-line text-muted"></i>
+                          </button>
+                          <div class="dropdown__content">
+                            <p>
+                              Lorem ipsum dolor sit amet consectetur adipisicing
+                              elit. Non illum possimus doloremque blanditiis
+                              minus velit repellendus illo culpa, delectus
+                              consequatur!
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="input-wrapper">
+                        <input
+                          type="text"
+                          inputmode="decimal"
+                          class="currency-input"
+                          id="profit"
+                          placeholder="0.00"
+                          value="${safeVal(profit)}"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="buttons-container">
+                <button type="button" class="btn btn--outline previous-button">
+                  <i class="ri-arrow-left-long-line"></i> Back
+                </button>
+                <!-- Changed to type=button to handle validation manually in JS -->
+                <button
+                  type="button"
+                  class="btn btn--primary btn--wide submit-button"
+                >
+                  Calculate tax <i class="ri-arrow-right-long-line"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
