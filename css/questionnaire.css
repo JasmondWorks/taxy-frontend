@@ -136,12 +136,12 @@ body {
 }
 
 .earning-forms > * + * {
-  margin-top: var(--space-700);
+  margin-top: var(--space-900);
 }
-.additional-info-form {
+.additional-info-form,
+.basic-info-form {
   display: grid;
-  column-gap: var(--space-400);
-  row-gap: var(--space-600);
+  gap: var(--space-500);
 }
 .form-title {
   padding-bottom: var(--space-100);
@@ -309,7 +309,8 @@ body {
 }
 
 @media (min-width: 30rem) {
-  .additional-info-form {
+  .additional-info-form,
+  .basic-info-form {
     grid-template-columns: 1fr 1fr;
   }
 }
