@@ -195,11 +195,6 @@ questionsContainer.addEventListener("click", (e) => {
     if (currentQuestionIndex > 0) {
       currentQuestionIndex--;
       renderQuestion();
-
-      console.log(
-        "current questin index in previous button click listener",
-        currentQuestionIndex,
-      );
     }
   }
 });

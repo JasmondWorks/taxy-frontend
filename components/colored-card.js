@@ -4,13 +4,19 @@ export const coloredCardString = ({
   icon,
   children,
   variant,
+  className,
 }) => {
-  return `<div class="colored-card colored-card--${variant}">
+  return `<div class="colored-card colored-card--${variant} ${className}">
+            ${
+              icon
+                ? `
             <div class="colored-card__icon">
               ${icon}
-            </div>
+            </div>`
+                : ""
+            }
             <div class="colored-card__content">
-              <h3 class="colored-card__title">${title}</h3>
+              ${title ? `<h3 class="colored-card__title">${title}</h3>` : ""}
               ${
                 subtitle
                   ? `<p class="colored-card__description text-muted">

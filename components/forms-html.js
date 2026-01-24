@@ -1,4 +1,7 @@
+import { coloredCardString } from "./colored-card.js";
+
 export const formsHtmlString = () => `
+      <div class="container--narrow">
         <div class="steps__content" data-target="step-3">
           <div class="flow">
             <p class="text-muted"><small>QUESTION 3 OF 4</small></p>
@@ -212,16 +215,28 @@ export const formsHtmlString = () => `
                     </div>
                   </div>
                 </div>
-                  <div class="buttons-container">
-                <button type="button" class="btn btn--outline previous-button">
-                  <i class="ri-arrow-left-long-line"></i> Previous
-                </button>
-                <!-- Changed to type=button to handle validation manually in JS -->
-                <button type="button" class="btn btn--primary btn--wide submit-button">
-                  Calculate tax <i class="ri-arrow-right-long-line"></i>
-                </button>
-              </div>
+                ${coloredCardString({
+                  variant: "orange",
+                  className: "colored-card--info colored-card--small",
+                  children: `
+                  <div>
+                    <i class="ri-information-line"></i>
+                    <span>
+                      National Minimum Wage Earners (₦840,000 annual income or less) are EXEMPT from PAYE tax
+                    </span>
+                  </div>`,
+                })}
+                <div class="buttons-container">
+                  <button type="button" class="btn btn--outline previous-button">
+                    <i class="ri-arrow-left-long-line"></i> Back
+                  </button>
+                  <!-- Changed to type=button to handle validation manually in JS -->
+                  <button type="button" class="btn btn--primary btn--wide submit-button">
+                    Calculate tax <i class="ri-arrow-right-long-line"></i>
+                  </button>
+                </div>
               </form>
             </div>
           </div>
-        </div>`;
+        </div>
+      </div>`;
