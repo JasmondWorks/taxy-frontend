@@ -11,16 +11,20 @@ document.addEventListener("click", (e) => {
         d.classList.remove("dropdown--active");
         d.classList.remove("dropdown--up");
         d.classList.remove("dropdown--right");
+        d.classList.remove("dropdown--center");
       }
     });
 
     if (dropdown.classList.contains("dropdown--active")) {
       dropdown.classList.remove("dropdown--active");
       dropdown.classList.remove("dropdown--up");
+      dropdown.classList.remove("dropdown--right");
+      dropdown.classList.remove("dropdown--center");
     } else {
       // Calculate position before showing
       dropdown.classList.remove("dropdown--up");
       dropdown.classList.remove("dropdown--right");
+      dropdown.classList.remove("dropdown--center");
 
       const rect = dropdownTrigger.getBoundingClientRect();
       // Content is in DOM but hidden with opacity.
@@ -34,16 +38,23 @@ document.addEventListener("click", (e) => {
       }
 
       // Horizontal check
-      const dropdownRect = dropdown.getBoundingClientRect();
       const contentWidth = content.offsetWidth;
+      const viewportWidth = window.innerWidth;
 
-      // Check if content goes off-screen to the right
-      // We check actual width AND a heuristic based on max-width (300px)
-      // If the trigger is within 300px of the right edge, we flip it to be safe.
-      if (
-        (contentWidth > 0 &&
-          dropdownRect.left + contentWidth > window.innerWidth - 20) ||
-        dropdownRect.left > window.innerWidth - 320
+      // Center check for mobile
+      const triggerCenter = rect.left + rect.width / 2;
+      const isMobile = viewportWidth < 768;
+      const isCentered =
+        triggerCenter > viewportWidth * 0.35 &&
+        triggerCenter < viewportWidth * 0.65;
+
+      if (isMobile && isCentered) {
+        dropdown.classList.add("dropdown--center");
+      }
+      // Right check
+      else if (
+        (contentWidth > 0 && rect.left + contentWidth > viewportWidth - 20) ||
+        rect.left > viewportWidth - 320
       ) {
         dropdown.classList.add("dropdown--right");
       }
@@ -59,6 +70,7 @@ document.addEventListener("click", (e) => {
       d.classList.remove("dropdown--active");
       d.classList.remove("dropdown--up");
       d.classList.remove("dropdown--right");
+      d.classList.remove("dropdown--center");
     });
   }
 
@@ -105,6 +117,7 @@ window.addEventListener(
       d.classList.remove("dropdown--active");
       d.classList.remove("dropdown--up");
       d.classList.remove("dropdown--right");
+      d.classList.remove("dropdown--center");
     });
   },
   { passive: true },
