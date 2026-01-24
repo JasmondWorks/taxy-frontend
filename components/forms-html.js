@@ -246,7 +246,7 @@ export const formsHtmlString = ({
                   <div>
                     <i class="ri-information-line"></i>
                     <span>
-                      National Minimum Wage Earners (₦840,000 annual income or less) are EXEMPT from PAYE tax
+                      National Minimum Wage Earners (₦800,000 annual income or less) are EXEMPT from PAYE tax
                     </span>
                   </div>`,
                 })}
