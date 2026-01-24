@@ -194,6 +194,8 @@ section {
 }
 
 .container--narrow {
+  margin-inline: auto;
+  padding-inline: var(--space-500);
   max-width: 80rem;
 }
 
@@ -426,7 +428,7 @@ tfoot td {
   gap: var(--space-200);
   padding: var(--space-250) var(--space-600);
   cursor: pointer;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   font-weight: var(--font-weight-medium);
   font-size: var(--font-size-base);
   transition: all 0.3s ease;

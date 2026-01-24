@@ -63,7 +63,7 @@ export const taxInclusionHtmlString = ({ jobOccupation, calculatedTax }) => {
       </div>
       <div class="buttons-container">
         <button type="button" class="btn btn--outline previous-button">
-          <i class="ri-arrow-left-long-line"></i> Previous
+          <i class="ri-arrow-left-long-line"></i> Back
         </button>
         <button
           onclick="goToPage('next-steps-Above800k.html')"
