@@ -102,18 +102,30 @@ let questions = [
 ];
 let currentQuestionIndex = 0;
 
+// Check for params first to handle new session or restore results
+const urlParams = new URL(window.location.href).searchParams;
+
+if (urlParams.get("new") === "true") {
+  localStorage.removeItem("questionsState");
+  localStorage.removeItem("calculatedTax");
+  // Clean URL without reload
+  window.history.replaceState({}, document.title, "questionnaire.html");
+}
+
 // Load persisted questions state if available
 const savedQuestions = localStorage.getItem("questionsState");
 if (savedQuestions) {
   try {
-    questions = JSON.parse(savedQuestions).questions;
+    const parsed = JSON.parse(savedQuestions);
+    if (parsed && Array.isArray(parsed.questions)) {
+      questions = parsed.questions;
+    }
   } catch (e) {
     console.error("Failed to parse saved questions state", e);
   }
 }
 
 // Check for view=results param to restore state correctly
-const urlParams = new URL(window.location.href).searchParams;
 if (urlParams.get("view") === "results") {
   // If viewing results, we assume we are at the end (index 3 for 4 items where 3 is result placeholder)
   // Ensure we have tax results before jumping there, otherwise fallback to 0
@@ -132,7 +144,6 @@ function saveQuestionsState() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  localStorage.clear();
   renderQuestion();
 });
 
